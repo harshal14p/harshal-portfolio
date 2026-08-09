@@ -61,3 +61,12 @@ function applyConfig() {
     });
   });
 }
+const heroName = document.querySelector('.hero-title span[data-bind="name"]');
+
+if (heroName) {
+  heroName.addEventListener("click", () => {
+    heroName.classList.remove("shine");
+    void heroName.offsetWidth;
+    heroName.classList.add("shine");
+  });
+}
