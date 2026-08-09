@@ -1,4 +1,4 @@
-/* Main entry point */
+/* Main entry point — contact CTA refresh v13 */
 import { SITE } from "./config.js";
 import { initCursor } from "./cursor.js";
 import { initNav } from "./nav.js";
@@ -35,7 +35,7 @@ function injectVisualOverrides() {
   if (document.querySelector('link[data-visual-overrides]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./css/overrides.css?v=12";
+  link.href = "./css/overrides.css?v=13";
   link.dataset.visualOverrides = "true";
   document.head.appendChild(link);
 }
@@ -73,7 +73,7 @@ function setMetaProperty(property, content) { let el = document.querySelector(`m
 
 function initWhatsApp() {
   const phone = String(SITE.phone || "").replace(/\D/g, "");
-  if (!phone || document.getElementById("whatsapp-float")) return;
+  if (!phone) return;
   const message = encodeURIComponent("Hi Harshal, I found your portfolio and would like to connect with you.");
   const href = `https://wa.me/91${phone}?text=${message}`;
   document.querySelectorAll('[data-bind="whatsapp-link"]').forEach((el) => {
@@ -81,53 +81,27 @@ function initWhatsApp() {
     el.target = "_blank";
     el.rel = "noopener noreferrer";
   });
-  const button = document.createElement("a");
-  button.id = "whatsapp-float";
-  button.href = href;
-  button.target = "_blank";
-  button.rel = "noopener noreferrer";
-  button.setAttribute("aria-label", "Chat with Harshal on WhatsApp");
-  button.setAttribute("title", "Chat with me on WhatsApp");
-  button.innerHTML = '<span class="wa-icon" aria-hidden="true">◔</span><span class="wa-label">WhatsApp</span>';
-  document.body.appendChild(button);
+  const oldFloat = document.getElementById("whatsapp-float");
+  if (oldFloat) oldFloat.remove();
 }
 
-/* Contact row: remove Resume and add WhatsApp beside the existing Call/Email/LinkedIn actions. */
 function initContactActions() {
   const actions = document.querySelector(".contact-actions");
   if (!actions) return;
-
-  const resume = actions.querySelector('[data-bind="resume-link"]');
-  if (resume) resume.remove();
-
+  actions.querySelectorAll('[data-bind="resume-link"], a').forEach((el) => {
+    const text = (el.textContent || "").trim().toLowerCase();
+    if (el.matches('[data-bind="resume-link"]') || text.includes("download resume")) el.remove();
+  });
   const call = actions.querySelector('a[href^="tel:"]');
-  if (call) {
-    call.textContent = "";
-    call.innerHTML = `${iconPhone()}<span>Call Me</span>`;
-    call.classList.add("contact-glass-action");
-    call.setAttribute("aria-label", "Call Harshal");
-  }
-
+  if (call) { call.textContent = ""; call.innerHTML = `${iconPhone()}<span>Call Me</span>`; call.classList.add("contact-glass-action"); call.setAttribute("aria-label", "Call Harshal"); }
   const email = actions.querySelector('[data-bind="email-link"]');
-  if (email) {
-    email.textContent = "";
-    email.innerHTML = `${iconMail()}<span>Email Me</span>`;
-    email.classList.add("contact-glass-action");
-    email.setAttribute("aria-label", "Email Harshal");
-  }
-
+  if (email) { email.textContent = ""; email.innerHTML = `${iconMail()}<span>Email Me</span>`; email.classList.add("contact-glass-action"); email.setAttribute("aria-label", "Email Harshal"); }
   const linkedin = actions.querySelector('[data-bind="linkedin-link"]');
-  if (linkedin && linkedin.closest(".contact-actions")) {
-    linkedin.textContent = "";
-    linkedin.innerHTML = `${iconLinkedIn()}<span>Connect</span>`;
-    linkedin.classList.add("contact-glass-action");
-    linkedin.setAttribute("aria-label", "Connect with Harshal on LinkedIn");
-  }
-
+  if (linkedin && linkedin.closest(".contact-actions")) { linkedin.textContent = ""; linkedin.innerHTML = `${iconLinkedIn()}<span>Connect</span>`; linkedin.classList.add("contact-glass-action"); linkedin.setAttribute("aria-label", "Connect with Harshal on LinkedIn"); }
   if (!actions.querySelector(".contact-whatsapp")) {
-    const wa = document.createElement("a");
     const phone = String(SITE.phone || "").replace(/\D/g, "");
     const message = encodeURIComponent("Hi Harshal, I found your portfolio and would like to connect with you.");
+    const wa = document.createElement("a");
     wa.className = "btn btn-ghost contact-glass-action contact-whatsapp";
     wa.href = `https://wa.me/91${phone}?text=${message}`;
     wa.target = "_blank";
@@ -137,7 +111,6 @@ function initContactActions() {
     wa.innerHTML = `${iconWhatsApp()}<span>Chat Now</span>`;
     actions.appendChild(wa);
   }
-
   if (!document.getElementById("contact-action-style")) {
     const style = document.createElement("style");
     style.id = "contact-action-style";
