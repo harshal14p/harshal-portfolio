@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harshal Chouhan — Key Account Manager | Project Coordinator | MBA Finance</title>
+  <meta name="description" content="Harshal Chouhan — Key Account Manager and Project Coordinator with an MBA in Finance. Working at the intersection of clients, projects and creative execution." />
+  <meta name="author" content="Harshal Chouhan" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Harshal Chouhan — Key Account Manager | Project Coordinator | MBA Finance" />
+  <meta property="og:description" content="I work at the intersection of clients, projects and creative execution — turning ideas and briefs into meaningful work." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/profile.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Three.js import map — reliable, documented CDN (unpkg) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- Custom cursor (desktop only, injected/enabled via JS) -->
+  <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Fixed background layers -->
+  <canvas id="smoke-canvas" aria-hidden="true"></canvas>
+  <canvas id="scene-canvas" aria-hidden="true"></canvas>
+  <div id="scene-fallback" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" data-bind="name-short">HC</a>
+
+      <nav class="nav-links" id="nav-links" aria-label="Primary">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ================= HERO ================= -->
+    <section class="section hero" id="hero" data-scroll-boundary="hero-start">
+      <div class="hero-inner container">
+        <p class="eyebrow reveal">Portfolio</p>
+        <h1 class="hero-title reveal">
+          <span data-bind="name">Harshal Chouhan</span>
+        </h1>
+        <p class="hero-role reveal">Key Account Manager <span class="dot">·</span> Project Coordinator <span class="dot">·</span> MBA Finance</p>
+        <p class="hero-line reveal">I work at the intersection of clients, projects and creative execution — turning ideas and briefs into meaningful work.</p>
+
+        <div class="hero-actions reveal">
+          <a href="#work" class="btn btn-primary" data-cursor="link">View My Work</a>
+          <a href="#contact" class="btn btn-ghost" data-cursor="link">Let's Connect</a>
+        </div>
+      </div>
+
+      <div class="hero-photo" aria-hidden="false">
+        <div class="hero-photo-inner reveal">
+          <img data-bind="profile-image" src="assets/profile.jpg" alt="Portrait of Harshal Chouhan" width="420" height="520" loading="eager" />
+        </div>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true">
+        <span></span>
+        <p>Scroll</p>
+      </div>
+    </section>
+
+    <!-- ================= ABOUT ================= -->
+    <section class="section about" id="about">
+      <div class="container">
+        <p class="eyebrow reveal">A little about me</p>
+        <h2 class="section-title reveal">A LITTLE ABOUT ME</h2>
+
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <p>I'm Harshal Chouhan, a Key Account Manager and Project Coordinator with an MBA in Finance. My work revolves around managing client relationships, coordinating projects, collaborating with creative teams and making sure ideas move smoothly from brief to final delivery.</p>
+            <p>Alongside client and project management, I enjoy contributing to ideas, content, scripts and creative execution. My background in finance gives me a structured, analytical approach, while my experience across sales, client management and creative projects has helped me develop a more people-focused and execution-driven perspective.</p>
+          </div>
+
+          <div class="about-cards">
+            <div class="about-card reveal">
+              <h3>Clients</h3>
+              <p>Building relationships and understanding client needs.</p>
+            </div>
+            <div class="about-card reveal">
+              <h3>Projects</h3>
+              <p>Coordinating projects from brief to delivery.</p>
+            </div>
+            <div class="about-card reveal">
+              <h3>Ideas</h3>
+              <p>Contributing concepts, content and creative direction.</p>
+            </div>
+            <div class="about-card reveal">
+              <h3>Execution</h3>
+              <p>Keeping people, timelines and deliverables aligned.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHAT I DO ================= -->
+    <section class="section whatido" id="whatido">
+      <div class="container">
+        <p class="eyebrow reveal">Focus areas</p>
+        <h2 class="section-title reveal">WHAT I DO</h2>
+
+        <div class="cards-grid">
+          <article class="tilt-card reveal" data-cursor="link">
+            <span class="card-num">01</span>
+            <h3>Key Account Management</h3>
+            <ul>
+              <li>Client communication</li>
+              <li>Requirement understanding</li>
+              <li>Brief handling</li>
+              <li>Feedback management</li>
+              <li>Client updates</li>
+              <li>Follow-ups</li>
+              <li>Relationship management</li>
+              <li>Escalation handling</li>
+            </ul>
+          </article>
+
+          <article class="tilt-card reveal" data-cursor="link">
+            <span class="card-num">02</span>
+            <h3>Project Coordination</h3>
+            <ul>
+              <li>Project planning</li>
+              <li>Team coordination</li>
+              <li>Writer/editor coordination</li>
+              <li>Timeline management</li>
+              <li>Deliverable tracking</li>
+              <li>Revision management</li>
+              <li>Final delivery coordination</li>
+            </ul>
+          </article>
+
+          <article class="tilt-card reveal" data-cursor="link">
+            <span class="card-num">03</span>
+            <h3>Creative Collaboration</h3>
+            <ul>
+              <li>New ideas and suggestions</li>
+              <li>Content ideas</li>
+              <li>Creative direction inputs</li>
+              <li>Script improvements</li>
+              <li>Visual/content references</li>
+              <li>Campaign thinking</li>
+            </ul>
+          </article>
+
+          <article class="tilt-card reveal" data-cursor="link">
+            <span class="card-num">04</span>
+            <h3>Content &amp; Production</h3>
+            <ul>
+              <li>Script coordination</li>
+              <li>Video production coordination</li>
+              <li>Shoot coordination</li>
+              <li>Editing workflow</li>
+              <li>Internal quality review</li>
+              <li>Final deliverable checks</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WORKFLOW ================= -->
+    <section class="section workflow" id="workflow">
+      <div class="container">
+        <p class="eyebrow reveal">Process</p>
+        <h2 class="section-title reveal">FROM BRIEF TO DELIVERY</h2>
+        <p class="section-sub reveal">From the first brief to the final delivery, I help keep every moving part aligned.</p>
+
+        <div class="workflow-track" id="workflow-track">
+          <div class="workflow-line"><span class="workflow-line-fill" id="workflow-fill"></span></div>
+          <ol class="workflow-stages" id="workflow-stages">
+            <li class="stage"><span class="stage-num">01</span><span class="stage-name">Brief</span></li>
+            <li class="stage"><span class="stage-num">02</span><span class="stage-name">Understand</span></li>
+            <li class="stage"><span class="stage-num">03</span><span class="stage-name">Plan</span></li>
+            <li class="stage"><span class="stage-num">04</span><span class="stage-name">Coordinate</span></li>
+            <li class="stage"><span class="stage-num">05</span><span class="stage-name">Create</span></li>
+            <li class="stage"><span class="stage-num">06</span><span class="stage-name">Review</span></li>
+            <li class="stage"><span class="stage-num">07</span><span class="stage-name">Refine</span></li>
+            <li class="stage"><span class="stage-num">08</span><span class="stage-name">Deliver</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EXPERIENCE ================= -->
+    <section class="section experience" id="experience">
+      <div class="container">
+        <p class="eyebrow reveal">Career so far</p>
+        <h2 class="section-title reveal">EXPERIENCE</h2>
+
+        <div class="timeline" id="timeline">
+          <article class="timeline-item reveal">
+            <button class="timeline-toggle" aria-expanded="false">
+              <div class="timeline-head">
+                <span class="timeline-tag">Current</span>
+                <h3>Key Account Manager / Project Coordinator</h3>
+                <p class="timeline-company">Money Mediia</p>
+              </div>
+              <span class="timeline-plus" aria-hidden="true"></span>
+            </button>
+            <div class="timeline-body">
+              <ul>
+                <li>Client relationship management</li>
+                <li>Client communication and brief handling</li>
+                <li>Project coordination and team coordination</li>
+                <li>Writer/editor coordination</li>
+                <li>Timeline and deadline management</li>
+                <li>Feedback and revision management</li>
+                <li>Quality review — spelling, punctuation, pronunciation, script accuracy and visual consistency</li>
+                <li>Video production and shoot coordination</li>
+                <li>Content/script involvement and creative suggestions</li>
+                <li>Final delivery coordination</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item reveal">
+            <button class="timeline-toggle" aria-expanded="false">
+              <div class="timeline-head">
+                <span class="timeline-tag">Previous</span>
+                <h3>Team Leader – Sales</h3>
+                <p class="timeline-company">Coding Pandit Pvt. Ltd.</p>
+              </div>
+              <span class="timeline-plus" aria-hidden="true"></span>
+            </button>
+            <div class="timeline-body">
+              <ul>
+                <li>Led a sales team of 6+ members</li>
+                <li>Team management and coordination</li>
+                <li>Client and customer interaction</li>
+                <li>Sales coordination</li>
+                <li>Promoted within approximately one year</li>
+                <li>Received "Rising Star" recognition</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item reveal">
+            <button class="timeline-toggle" aria-expanded="false">
+              <div class="timeline-head">
+                <span class="timeline-tag">2019 — Present</span>
+                <h3>Choreographer &amp; Event Manager</h3>
+                <p class="timeline-company">Freelance</p>
+              </div>
+              <span class="timeline-plus" aria-hidden="true"></span>
+            </button>
+            <div class="timeline-body">
+              <ul>
+                <li>Event coordination and execution</li>
+                <li>Client coordination</li>
+                <li>Team coordination</li>
+                <li>Creative planning and choreography</li>
+                <li>Managing multiple moving parts during live events</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SELECTED WORK ================= -->
+    <section class="section work" id="work">
+      <div class="container">
+        <p class="eyebrow reveal">Portfolio</p>
+        <h2 class="section-title reveal">SELECTED WORK</h2>
+        <p class="section-sub reveal">A selection of projects, ideas and creative work I've been involved in.</p>
+
+        <div class="project-filters reveal" id="project-filters"></div>
+        <div class="project-grid" id="project-grid"></div>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS ================= -->
+    <section class="section skills" id="skills">
+      <div class="container">
+        <p class="eyebrow reveal">Capabilities</p>
+        <h2 class="section-title reveal">SKILLS</h2>
+
+        <div class="skills-grid">
+          <div class="skill-group reveal">
+            <h3>Client &amp; Business</h3>
+            <div class="skill-tags">
+              <span>Key Account Management</span>
+              <span>Client Communication</span>
+              <span>Client Success</span>
+              <span>Relationship Management</span>
+              <span>Stakeholder Management</span>
+            </div>
+          </div>
+
+          <div class="skill-group reveal">
+            <h3>Project</h3>
+            <div class="skill-tags">
+              <span>Project Coordination</span>
+              <span>Timeline Management</span>
+              <span>Team Coordination</span>
+              <span>Workflow Management</span>
+              <span>Feedback Management</span>
+              <span>Quality Control</span>
+              <span>Deadline Management</span>
+            </div>
+          </div>
+
+          <div class="skill-group reveal">
+            <h3>Creative</h3>
+            <div class="skill-tags">
+              <span>Creative Ideation</span>
+              <span>Content Development</span>
+              <span>Basic Script Writing</span>
+              <span>Creative Research</span>
+              <span>Visual Concept Development</span>
+              <span>Campaign Ideas</span>
+            </div>
+          </div>
+
+          <div class="skill-group reveal">
+            <h3>Digital / Tools</h3>
+            <div class="skill-tags">
+              <span>MS Excel</span>
+              <span>Google Sheets</span>
+              <span>Power BI</span>
+              <span>Tally ERP</span>
+              <span>CRM Systems</span>
+              <span>AI Tools</span>
+              <span>Generative AI for Creative Work</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= EDUCATION ================= -->
+    <section class="section education" id="education">
+      <div class="container">
+        <p class="eyebrow reveal">Academics</p>
+        <h2 class="section-title reveal">EDUCATION</h2>
+
+        <div class="edu-grid">
+          <div class="edu-card reveal">
+            <p class="edu-year">Completed 2026</p>
+            <h3>MBA — Finance</h3>
+            <p class="edu-school">Indore Institute of Management &amp; Research / DAVV</p>
+          </div>
+          <div class="edu-card reveal">
+            <p class="edu-year">B.Com</p>
+            <h3>Bachelor of Commerce</h3>
+            <p class="edu-school">Government Arts &amp; Commerce College, Rau / DAVV</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CERTIFICATIONS ================= -->
+    <section class="section certifications" id="certifications">
+      <div class="container">
+        <p class="eyebrow reveal">Learning</p>
+        <h2 class="section-title reveal">CERTIFICATIONS</h2>
+
+        <div class="cert-grid">
+          <div class="cert-card reveal"><h3>Financial Modeling</h3></div>
+          <div class="cert-card reveal"><h3>Tally</h3></div>
+          <div class="cert-card reveal"><h3>ChatGPT for Finance</h3></div>
+          <div class="cert-card reveal"><h3>NISM</h3></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BEYOND WORK ================= -->
+    <section class="section beyond" id="beyond">
+      <div class="container">
+        <p class="eyebrow reveal">Beyond the desk</p>
+        <h2 class="section-title reveal">BEYOND THE WORK</h2>
+
+        <div class="beyond-grid">
+          <div class="beyond-card reveal"><h3>Choreography</h3></div>
+          <div class="beyond-card reveal"><h3>Event Management</h3></div>
+          <div class="beyond-card reveal"><h3>Creative Experimentation</h3></div>
+          <div class="beyond-card reveal"><h3>AI &amp; Creative Technology</h3></div>
+          <div class="beyond-card reveal"><h3>Learning</h3></div>
+          <div class="beyond-card reveal"><h3>New Ideas</h3></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CURRENTLY EXPLORING ================= -->
+    <section class="section exploring" id="exploring">
+      <div class="container">
+        <p class="eyebrow reveal">Right now</p>
+        <h2 class="section-title reveal">CURRENTLY EXPLORING</h2>
+
+        <div class="explore-grid">
+          <div class="explore-card reveal">
+            <h3>AI × Creativity</h3>
+            <p>Exploring how generative AI can improve visual storytelling and content creation.</p>
+          </div>
+          <div class="explore-card reveal">
+            <h3>Creative Strategy</h3>
+            <p>Understanding how ideas become effective campaigns.</p>
+          </div>
+          <div class="explore-card reveal">
+            <h3>Project &amp; Client Management</h3>
+            <p>Building better systems for smoother execution.</p>
+          </div>
+          <div class="explore-card reveal">
+            <h3>Finance × Media</h3>
+            <p>Bringing my finance background into the financial-content and media ecosystem.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <h2 class="contact-title reveal">LET'S WORK TOGETHER.</h2>
+        <p class="contact-sub reveal">Have a project, idea, opportunity or simply want to connect?</p>
+
+        <div class="contact-actions reveal">
+          <a class="btn btn-primary" data-bind="email-link" href="mailto:harshal@example.com" data-cursor="link">Email Me</a>
+          <a class="btn btn-ghost" data-bind="linkedin-link" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" data-cursor="link">LinkedIn</a>
+          <a class="btn btn-outline" data-bind="resume-link" href="assets/resume.pdf" download data-cursor="link">Download Resume</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-name" data-bind="name">Harshal Chouhan</p>
+        <p class="footer-role">Key Account Manager · Project Coordinator · MBA Finance</p>
+      </div>
+
+      <div class="footer-links">
+        <a data-bind="linkedin-link" href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a data-bind="instagram-link" href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a data-bind="email-link" href="mailto:harshal@example.com">Email</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Harshal Chouhan</p>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
