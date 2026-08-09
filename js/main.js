@@ -6,7 +6,7 @@ import { initReveal, initWorkflow, initTimeline } from "./reveal.js";
 import { initProjects } from "./projects.js";
 import { initScene } from "./scene.js";
 import { initTilt } from "./tilt.js";
-import { initGalaxy } from "./galaxy.js";
+import { initGalaxy } from "./galaxy.js?v=10";
 
 injectVisualOverrides();
 ensureGalaxyCanvas();
@@ -34,7 +34,7 @@ function injectVisualOverrides() {
   if (document.querySelector('link[data-visual-overrides]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./css/overrides.css?v=9";
+  link.href = "./css/overrides.css?v=10";
   link.dataset.visualOverrides = "true";
   document.head.appendChild(link);
 }
