@@ -25,7 +25,7 @@ function injectVisualOverrides() {
   if (document.querySelector('link[data-visual-overrides]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./css/overrides.css?v=4";
+  link.href = "./css/overrides.css?v=5";
   link.dataset.visualOverrides = "true";
   document.head.appendChild(link);
 }
@@ -57,5 +57,27 @@ function applySEO() {
 function setMeta(name, content) { let el = document.querySelector(`meta[name="${name}"]`); if (!el) { el = document.createElement("meta"); el.name = name; document.head.appendChild(el); } el.content = content; }
 function setMetaProperty(property, content) { let el = document.querySelector(`meta[property="${property}"]`); if (!el) { el = document.createElement("meta"); el.setAttribute("property", property); document.head.appendChild(el); } el.content = content; }
 
-const heroName = document.querySelector('.hero-title span[data-bind="name"]');
-if (heroName) heroName.addEventListener("click", () => { heroName.classList.remove("shine"); void heroName.offsetWidth; heroName.classList.add("shine"); });
+/* Continuous, restrained premium name shine: cursor + scroll + idle loop. */
+function initNameShine() {
+  const heroName = document.querySelector('.hero-title span[data-bind="name"]');
+  if (!heroName) return;
+  let timer;
+  let last = 0;
+  const shine = () => {
+    const now = performance.now();
+    if (now - last < 900) return;
+    last = now;
+    heroName.classList.remove("shine");
+    void heroName.offsetWidth;
+    heroName.classList.add("shine");
+    clearTimeout(timer);
+    timer = setTimeout(() => heroName.classList.remove("shine"), 1350);
+  };
+  window.addEventListener("scroll", shine, { passive: true });
+  window.addEventListener("mousemove", shine, { passive: true });
+  setInterval(() => {
+    if (document.visibilityState === "visible") shine();
+  }, 3600);
+  shine();
+}
+initNameShine();
