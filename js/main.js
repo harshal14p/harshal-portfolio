@@ -14,6 +14,7 @@ import { initProjects } from "./projects.js";
 import { initScene } from "./scene.js";
 import { initTilt } from "./tilt.js";
 
+injectVisualOverrides();
 applyConfig();
 initCursor();
 initNav();
@@ -24,6 +25,17 @@ initTimeline();
 initProjects();
 initTilt();
 initScene(); // async — safe to fire and forget; it self-handles fallbacks
+
+/* Load the final visual layer after the base stylesheet so it wins the cascade. */
+function injectVisualOverrides() {
+  if (document.querySelector('link[data-visual-overrides]')) return;
+
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "./css/overrides.css?v=3";
+  link.dataset.visualOverrides = "true";
+  document.head.appendChild(link);
+}
 
 /* --------------------------------------------------------------------------
    Binds config.js values onto every element marked data-bind="...".
@@ -61,6 +73,7 @@ function applyConfig() {
     });
   });
 }
+
 const heroName = document.querySelector('.hero-title span[data-bind="name"]');
 
 if (heroName) {
