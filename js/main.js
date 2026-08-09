@@ -12,6 +12,7 @@ injectVisualOverrides();
 ensureGalaxyCanvas();
 applyConfig();
 applySEO();
+removeCertificateSection();
 initCursor();
 initNav();
 initReveal();
@@ -33,9 +34,17 @@ function injectVisualOverrides() {
   if (document.querySelector('link[data-visual-overrides]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./css/overrides.css?v=7";
+  link.href = "./css/overrides.css?v=9";
   link.dataset.visualOverrides = "true";
   document.head.appendChild(link);
+}
+function removeCertificateSection() {
+  document.querySelectorAll('section, nav a, .nav-links a, .mobile-menu a').forEach((el) => {
+    const id = (el.id || "").toLowerCase();
+    const cls = typeof el.className === "string" ? el.className.toLowerCase() : "";
+    const text = (el.textContent || "").trim().toLowerCase().replace(/\s+/g, " ");
+    if (id.includes("certif") || cls.includes("certif") || (el.tagName === "SECTION" && /^(certificate|certificates|certification|certifications)$/.test(text))) el.remove();
+  });
 }
 function applyConfig() {
   document.querySelectorAll('[data-bind="name"]').forEach((el) => (el.textContent = SITE.name));
