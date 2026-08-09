@@ -1,0 +1,85 @@
+name: Apply 3D portfolio styling
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append 3D styling
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('css/style.css')
+          s=p.read_text(encoding='utf-8')
+          marker='/* HARSHAL 3D CINEMATIC ENHANCEMENT */'
+          if marker in s:
+              print('Already applied')
+              raise SystemExit
+          css=r'''
+
+/* HARSHAL 3D CINEMATIC ENHANCEMENT */
+body {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(255,61,129,.18), transparent 34%),
+    radial-gradient(circle at 84% 55%, rgba(122,18,54,.20), transparent 40%),
+    linear-gradient(135deg,#050308 0%,#12040d 52%,#020103 100%);
+}
+.hero { perspective: 1400px; transform-style: preserve-3d; }
+.hero-inner { position:relative; z-index:5; transform:translateZ(36px); }
+.hero-title {
+  font-family:'Bodoni Moda',Georgia,serif;
+  font-weight:800;
+  letter-spacing:-.055em;
+  text-shadow:0 5px 25px rgba(0,0,0,.55),0 0 38px rgba(255,61,129,.18);
+}
+.hero-title span {
+  color:#fff;
+  background:linear-gradient(110deg,#fff 0%,#fff 38%,#cfd0d6 45%,#fff 50%,#fff 100%);
+  background-size:300% 100%;
+  background-position:220% 0;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:harshalNameShine 3.2s linear infinite;
+  filter:drop-shadow(0 0 9px rgba(255,255,255,.32)) drop-shadow(0 0 28px rgba(255,61,129,.16));
+}
+.hero-title:active span { animation:harshalNameClick .75s linear 1; }
+@keyframes harshalNameShine { 0%{background-position:220% 0} 100%{background-position:-120% 0} }
+@keyframes harshalNameClick { from{background-position:220% 0} to{background-position:-120% 0} }
+.hero-photo {
+  transform:translateY(-50%) perspective(1200px) rotateY(-7deg) rotateX(2deg) translateZ(28px);
+  filter:drop-shadow(0 35px 65px rgba(0,0,0,.55));
+}
+.hero-photo-inner {
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 35px 80px rgba(0,0,0,.62),0 0 45px rgba(255,61,129,.14);
+  transform-style:preserve-3d;
+}
+.hero-photo-inner:hover { transform:translateZ(35px) rotateY(2deg) scale(1.015); }
+.about-card,.project-card,.skill-card,.edu-card,.cert-card,.beyond-card,.explore-card,.stage,.contact-actions .btn {
+  transform-style:preserve-3d;
+  box-shadow:0 20px 48px rgba(0,0,0,.38),0 0 28px rgba(255,61,129,.06);
+}
+.about-card:hover,.project-card:hover,.skill-card:hover,.edu-card:hover,.cert-card:hover,.beyond-card:hover,.explore-card:hover,.stage:hover {
+  transform:translateY(-10px) translateZ(24px) rotateX(1deg);
+  box-shadow:0 35px 75px rgba(0,0,0,.58),0 0 42px rgba(255,61,129,.14);
+}
+.contact-actions .btn { transition:transform .35s var(--ease),box-shadow .35s var(--ease); }
+.contact-actions .btn:hover { transform:translateY(-7px) translateZ(18px); box-shadow:0 22px 45px rgba(0,0,0,.5),0 0 28px rgba(255,61,129,.18); }
+@media (max-width:900px) { .hero-inner{transform:none}.hero-photo{transform:none} }
+'''
+          p.write_text(s.rstrip()+css+'\n',encoding='utf-8')
+          PY
+      - name: Commit CSS
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add css/style.css
+          git diff --cached --quiet && exit 0
+          git commit -m 'Apply cinematic 3D depth and name shine'
+          git push
