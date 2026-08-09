@@ -360,10 +360,50 @@ html.no-custom-cursor .cursor-ring {
 }
 .hero-inner { max-width: 720px; }
 .hero-title {
+  font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(3rem, 8.6vw, 6.4rem);
-  color: var(--white);
-  text-shadow: 0 0 4px rgba(255,255,255,0.15), 0 0 44px var(--accent-pink-dim);
+  font-weight: 800;
+  color: #ffffff;
   margin-bottom: 22px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.035em;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.15),
+    0 0 35px rgba(255, 61, 129, 0.35);
+}
+
+.hero-title span {
+  display: inline-block;
+  color: #ffffff;
+  background: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #ffffff 42%,
+    #ff7fac 50%,
+    #ffffff 58%,
+    #ffffff 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-title span.shine {
+  animation: nameShine 0.9s ease forwards;
+}
+
+@keyframes nameShine {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
 }
 .hero-role {
   font-size: clamp(1.05rem, 2vw, 1.35rem);
