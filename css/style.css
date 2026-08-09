@@ -360,49 +360,54 @@ html.no-custom-cursor .cursor-ring {
 }
 .hero-inner { max-width: 720px; }
 .hero-title {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(3rem, 8.6vw, 6.4rem);
-  font-weight: 800;
+  font-weight: 700;
   color: #ffffff;
   margin-bottom: 22px;
   cursor: pointer;
-  position: relative;
   display: inline-block;
-  letter-spacing: -0.035em;
-  text-shadow:
-    0 0 8px rgba(255, 255, 255, 0.15),
-    0 0 35px rgba(255, 61, 129, 0.35);
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 10px rgba(255,255,255,0.25);
 }
 
 .hero-title span {
-  display: inline-block;
   color: #ffffff;
+  display: inline-block;
+  position: relative;
   background: linear-gradient(
-    120deg,
+    90deg,
     #ffffff 0%,
-    #ffffff 42%,
-    #ff7fac 50%,
-    #ffffff 58%,
+    #ffffff 40%,
+    #ffffff 48%,
+    #ffffff 52%,
+    #ffffff 60%,
     #ffffff 100%
   );
-  background-size: 250% 100%;
+  background-size: 300% 100%;
   background-position: 100% 0;
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .hero-title span.shine {
-  animation: nameShine 0.9s ease forwards;
+  animation: whiteNameShine 1s ease-in-out;
 }
 
-@keyframes nameShine {
+@keyframes whiteNameShine {
   0% {
     background-position: 100% 0;
+    filter: brightness(1);
+  }
+
+  50% {
+    background-position: 0% 0;
+    filter: brightness(2.5);
   }
 
   100% {
     background-position: -100% 0;
+    filter: brightness(1);
   }
 }
 .hero-role {
