@@ -9,6 +9,7 @@ import { initTilt } from "./tilt.js";
 import { initGalaxy } from "./galaxy.js";
 
 injectVisualOverrides();
+ensureGalaxyCanvas();
 applyConfig();
 applySEO();
 initCursor();
@@ -21,6 +22,13 @@ initTilt();
 initGalaxy();
 initScene();
 
+function ensureGalaxyCanvas() {
+  if (document.getElementById("galaxy-canvas")) return;
+  const canvas = document.createElement("canvas");
+  canvas.id = "galaxy-canvas";
+  canvas.setAttribute("aria-hidden", "true");
+  document.body.prepend(canvas);
+}
 function injectVisualOverrides() {
   if (document.querySelector('link[data-visual-overrides]')) return;
   const link = document.createElement("link");
