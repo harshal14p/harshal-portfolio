@@ -21,7 +21,7 @@ initTimeline();
 initProjects();
 initTilt();
 initGalaxy();
-initScene();
+initWhatsApp();
 
 function ensureGalaxyCanvas() {
   if (document.getElementById("galaxy-canvas")) return;
@@ -34,7 +34,7 @@ function injectVisualOverrides() {
   if (document.querySelector('link[data-visual-overrides]')) return;
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./css/overrides.css?v=10";
+  link.href = "./css/overrides.css?v=11";
   link.dataset.visualOverrides = "true";
   document.head.appendChild(link);
 }
@@ -69,3 +69,24 @@ function applySEO() {
 }
 function setMeta(name, content) { let el = document.querySelector(`meta[name="${name}"]`); if (!el) { el = document.createElement("meta"); el.name = name; document.head.appendChild(el); } el.content = content; }
 function setMetaProperty(property, content) { let el = document.querySelector(`meta[property="${property}"]`); if (!el) { el = document.createElement("meta"); el.setAttribute("property", property); document.head.appendChild(el); } el.content = content; }
+
+function initWhatsApp() {
+  const phone = String(SITE.phone || "").replace(/\D/g, "");
+  if (!phone || document.getElementById("whatsapp-float")) return;
+  const message = encodeURIComponent("Hi Harshal, I found your portfolio and would like to connect with you.");
+  const href = `https://wa.me/91${phone}?text=${message}`;
+  document.querySelectorAll('[data-bind="whatsapp-link"]').forEach((el) => {
+    el.href = href;
+    el.target = "_blank";
+    el.rel = "noopener noreferrer";
+  });
+  const button = document.createElement("a");
+  button.id = "whatsapp-float";
+  button.href = href;
+  button.target = "_blank";
+  button.rel = "noopener noreferrer";
+  button.setAttribute("aria-label", "Chat with Harshal on WhatsApp");
+  button.setAttribute("title", "Chat with me on WhatsApp");
+  button.innerHTML = '<span class="wa-icon" aria-hidden="true">◔</span><span class="wa-label">WhatsApp</span>';
+  document.body.appendChild(button);
+}
