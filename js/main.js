@@ -1,10 +1,4 @@
-/* ==========================================================================
-   MAIN ENTRY POINT
-   Applies the values from config.js to the page, then boots every
-   feature module. Each module is independent — if one fails, the rest
-   of the site keeps working.
-   ========================================================================== */
-
+/* Main entry point */
 import { SITE } from "./config.js";
 import { initCursor } from "./cursor.js";
 import { initNav } from "./nav.js";
@@ -16,6 +10,7 @@ import { initTilt } from "./tilt.js";
 
 injectVisualOverrides();
 applyConfig();
+applySEO();
 initCursor();
 initNav();
 initSmoke();
@@ -24,62 +19,43 @@ initWorkflow();
 initTimeline();
 initProjects();
 initTilt();
-initScene(); // async — safe to fire and forget; it self-handles fallbacks
+initScene();
 
-/* Load the final visual layer after the base stylesheet so it wins the cascade. */
 function injectVisualOverrides() {
   if (document.querySelector('link[data-visual-overrides]')) return;
-
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "./css/overrides.css?v=3";
+  link.href = "./css/overrides.css?v=4";
   link.dataset.visualOverrides = "true";
   document.head.appendChild(link);
 }
 
-/* --------------------------------------------------------------------------
-   Binds config.js values onto every element marked data-bind="...".
-   Add SITE.<field> in config.js and reference it with data-bind here if
-   you need to inject more values later.
-   -------------------------------------------------------------------------- */
 function applyConfig() {
   document.querySelectorAll('[data-bind="name"]').forEach((el) => (el.textContent = SITE.name));
   document.querySelectorAll('[data-bind="name-short"]').forEach((el) => (el.textContent = SITE.nameShort));
-
-  document.querySelectorAll('[data-bind="email-link"]').forEach((el) => {
-    el.setAttribute("href", `mailto:${SITE.email}`);
-  });
-  document.querySelectorAll('[data-bind="linkedin-link"]').forEach((el) => {
-    el.setAttribute("href", SITE.linkedin);
-  });
-  document.querySelectorAll('[data-bind="instagram-link"]').forEach((el) => {
-    el.setAttribute("href", SITE.instagram);
-  });
-  document.querySelectorAll('[data-bind="resume-link"]').forEach((el) => {
-    el.setAttribute("href", SITE.resumePath);
-  });
-
-  document.querySelectorAll('[data-bind="profile-image"]').forEach((img) => {
-    img.src = SITE.profileImagePath;
-    img.addEventListener("error", () => {
-      img.style.display = "none";
-      const wrap = img.closest(".hero-photo-inner");
-      if (wrap && !wrap.querySelector(".photo-fallback")) {
-        const initials = document.createElement("div");
-        initials.className = "photo-fallback";
-        initials.textContent = SITE.nameShort;
-        wrap.appendChild(initials);
-      }
-    });
-  });
+  document.querySelectorAll('[data-bind="email-link"]').forEach((el) => el.setAttribute("href", `mailto:${SITE.email}`));
+  document.querySelectorAll('[data-bind="linkedin-link"]').forEach((el) => el.setAttribute("href", SITE.linkedin));
+  document.querySelectorAll('[data-bind="instagram-link"]').forEach((el) => el.setAttribute("href", SITE.instagram));
+  document.querySelectorAll('[data-bind="resume-link"]').forEach((el) => el.setAttribute("href", SITE.resumePath));
+  document.querySelectorAll('[data-bind="profile-image"]').forEach((img) => { img.src = SITE.profileImagePath; });
 }
+
+function applySEO() {
+  const canonical = window.location.origin + window.location.pathname;
+  const title = "Harshal Chouhan | Key Account Manager, Project Coordinator & MBA Finance";
+  const description = "Portfolio of Harshal Chouhan — Key Account Manager, Project Coordinator and MBA Finance professional focused on client relationships, project execution, creative collaboration and business growth.";
+  document.title = title;
+  setMeta("description", description);
+  setMeta("keywords", "Harshal Chouhan, Key Account Manager, Project Coordinator, MBA Finance, client management, project management, creative collaboration, portfolio");
+  setMetaProperty("og:url", canonical);
+  setMetaProperty("og:title", title);
+  setMetaProperty("og:description", description);
+  document.querySelector('link[rel="canonical"]')?.setAttribute("href", canonical);
+  const schema = document.querySelector('script[type="application/ld+json"]');
+  if (schema) { try { const data = JSON.parse(schema.textContent); data.url = canonical; data.sameAs = [SITE.linkedin]; data.email = SITE.email; schema.textContent = JSON.stringify(data); } catch (_) {} }
+}
+function setMeta(name, content) { let el = document.querySelector(`meta[name="${name}"]`); if (!el) { el = document.createElement("meta"); el.name = name; document.head.appendChild(el); } el.content = content; }
+function setMetaProperty(property, content) { let el = document.querySelector(`meta[property="${property}"]`); if (!el) { el = document.createElement("meta"); el.setAttribute("property", property); document.head.appendChild(el); } el.content = content; }
 
 const heroName = document.querySelector('.hero-title span[data-bind="name"]');
-
-if (heroName) {
-  heroName.addEventListener("click", () => {
-    heroName.classList.remove("shine");
-    void heroName.offsetWidth;
-    heroName.classList.add("shine");
-  });
-}
+if (heroName) heroName.addEventListener("click", () => { heroName.classList.remove("shine"); void heroName.offsetWidth; heroName.classList.add("shine"); });
