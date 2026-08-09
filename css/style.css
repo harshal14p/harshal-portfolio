@@ -365,54 +365,78 @@ html.no-custom-cursor .cursor-ring {
   text-align: left;
 }
 .hero-title {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3rem, 8.6vw, 6.4rem);
+  font-family: 'Bodoni Moda', serif;
+  font-size: clamp(3.2rem, 8.8vw, 7rem);
   font-weight: 700;
+  line-height: 0.95;
   color: #ffffff;
   margin-bottom: 22px;
   cursor: pointer;
   display: inline-block;
-  letter-spacing: -0.03em;
-  text-shadow: 0 0 10px rgba(255,255,255,0.25);
+  letter-spacing: -0.045em;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.35),
+    0 0 25px rgba(255, 255, 255, 0.16),
+    0 0 45px rgba(255, 61, 129, 0.12);
 }
 
 .hero-title span {
   color: #ffffff;
   display: inline-block;
   position: relative;
+
+  /* White base + moving bright shine */
   background: linear-gradient(
-    90deg,
+    105deg,
     #ffffff 0%,
-    #ffffff 40%,
+    #ffffff 38%,
+    rgba(255, 255, 255, 0.72) 43%,
     #ffffff 48%,
     #ffffff 52%,
-    #ffffff 60%,
+    rgba(255, 255, 255, 0.72) 57%,
+    #ffffff 62%,
     #ffffff 100%
   );
-  background-size: 300% 100%;
-  background-position: 100% 0;
+
+  background-size: 250% 100%;
+  background-position: 200% 0;
+
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+
+  animation: nameShine 4s linear infinite;
+
+  filter:
+    drop-shadow(0 0 8px rgba(255, 255, 255, 0.25))
+    drop-shadow(0 0 22px rgba(255, 255, 255, 0.12));
 }
 
-.hero-title span.shine {
-  animation: whiteNameShine 1s ease-in-out;
-}
-
-@keyframes whiteNameShine {
+@keyframes nameShine {
   0% {
-    background-position: 100% 0;
-    filter: brightness(1);
+    background-position: 200% 0;
+    filter:
+      drop-shadow(0 0 8px rgba(255, 255, 255, 0.25))
+      drop-shadow(0 0 22px rgba(255, 255, 255, 0.12));
   }
 
-  50% {
+  45% {
     background-position: 0% 0;
-    filter: brightness(2.5);
+    filter:
+      drop-shadow(0 0 14px rgba(255, 255, 255, 0.55))
+      drop-shadow(0 0 35px rgba(255, 255, 255, 0.28))
+      drop-shadow(0 0 55px rgba(255, 61, 129, 0.16));
+  }
+
+  70% {
+    background-position: -100% 0;
+    filter:
+      drop-shadow(0 0 8px rgba(255, 255, 255, 0.25))
+      drop-shadow(0 0 22px rgba(255, 255, 255, 0.12));
   }
 
   100% {
     background-position: -100% 0;
-    filter: brightness(1);
   }
 }
 .hero-role {
