@@ -9,13 +9,13 @@ export const SITE = {
   name: "Harshal Chouhan",
   nameShort: "HC",
 
-  email: "harshal@example.com",           // shown as "Email Me" / footer link
-  linkedin: "https://linkedin.com",        // full LinkedIn profile URL
-  instagram: "https://instagram.com",      // full Instagram profile URL
+  email: "harshalchouhan723@gmail.com",
+  linkedin: "https://www.linkedin.com/in/harshal-chouhan-17b5ba247",
+  instagram: "https://instagram.com",
 
-  resumePath: "assets/resume.pdf",         // put your resume file at this path
-  profileImagePath: "assets/profile.jpg",  // put your photo at this path
-  bikeModelPath: "assets/bike.glb",        // put your 3D model at this path
+  resumePath: "assets/resume.pdf",
+  profileImagePath: "assets/profile.jpg",
+  bikeModelPath: "assets/bike.glb",
 };
 
 /* --------------------------------------------------------------------------
