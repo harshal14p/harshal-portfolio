@@ -358,7 +358,12 @@ html.no-custom-cursor .cursor-ring {
   padding-top: 120px;
   overflow: hidden;
 }
-.hero-inner { max-width: 720px; }
+.hero-inner {
+  max-width: 720px;
+  margin-left: 0;
+  margin-right: auto;
+  text-align: left;
+}
 .hero-title {
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(3rem, 8.6vw, 6.4rem);
