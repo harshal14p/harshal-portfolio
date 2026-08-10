@@ -1,6 +1,3 @@
-import "./video-review.js";
-import "./mobile-fixes.js";
-
 /* Site configuration */
 export const SITE = {
   name: "Harshal Chouhan",
