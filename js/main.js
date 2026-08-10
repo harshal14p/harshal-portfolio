@@ -4,7 +4,6 @@ import { initCursor } from "./cursor.js";
 import { initNav } from "./nav.js";
 import { initReveal, initWorkflow, initTimeline } from "./reveal.js";
 import { initProjects } from "./projects.js";
-import { initScene } from "./scene.js";
 import { initTilt } from "./tilt.js";
 import { initGalaxy } from "./galaxy.js?v=10";
 
@@ -53,7 +52,6 @@ function initContactActions(){
   const email=actions.querySelector('[data-bind="email-link"]'); if(email){email.textContent="";email.innerHTML=`${iconMail()}<span>Email Me</span>`;email.classList.add("contact-glass-action");email.setAttribute("aria-label","Email Harshal");}
   const linkedin=actions.querySelector('[data-bind="linkedin-link"]'); if(linkedin&&linkedin.closest(".contact-actions")){linkedin.textContent="";linkedin.innerHTML=`${iconLinkedIn()}<span>Connect</span>`;linkedin.classList.add("contact-glass-action");linkedin.setAttribute("aria-label","Connect with Harshal on LinkedIn");}
 
-  // Reuse an existing WhatsApp button and remove every duplicate. This prevents two Chat Now buttons.
   const candidates=[...actions.querySelectorAll('a')].filter(el=>{const href=(el.getAttribute("href")||"").toLowerCase();const text=(el.textContent||"").trim().toLowerCase();return href.includes("wa.me")||text.includes("chat now")||el.classList.contains("contact-whatsapp");});
   let wa=candidates[0]||null; candidates.slice(1).forEach(el=>el.remove());
   if(!wa){wa=document.createElement("a");actions.appendChild(wa);}
