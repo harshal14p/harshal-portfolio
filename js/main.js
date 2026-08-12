@@ -14,6 +14,7 @@ load("./tilt.js","initTilt");
 load("./galaxy.js?v=10","initGalaxy",true);
 load("./photo-effects.js","initPhotoEffects");
 loadSelf("./video-review.js");
+loadSelf("./smart-video-review.js");
 loadSelf("./mobile-fixes.js");
 initWhatsApp();
 initContactActions();
