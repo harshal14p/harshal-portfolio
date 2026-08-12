@@ -1,35 +1,17 @@
-/* Smart context-aware review layer. This is intentionally isolated from the portfolio UI. */
+/* Isolated context-aware review layer: augments the existing video checker only. */
 (()=>{'use strict';
-  const COMMON={their:['there','they\'re'],there:['their','they\'re'],your:['you\'re'],youre:['your'],its:['it\'s'],it\'s:['its'],then:['than'],than:['then'],affect:['effect'],effect:['affect'],loose:['lose'],lose:['loose'],advice:['advise'],advise:['advice'],principal:['principle'],principle:['principal'],compliment:['complement'],complement:['compliment'],stationary:['stationery'],stationery:['stationary'],weather:['whether'],whether:['weather'],accept:['except'],except:['accept'],lead:['led'],led:['lead'],lay:['lie'],lie:['lay'],breath:['breathe'],breathe:['breath'],defence:['defense'],practice:['practise'],practise:['practice']};
-  const BAD_CONTEXT=[/\b(?:is|are|was|were)\s+an?\s+hour\b/i,/\b(?:a|an)\s+(?:university|user|unique|useful|European)\b/i];
-  const clean=s=>String(s||'').replace(/\s+/g,' ').trim();
-  const toks=s=>(clean(s).match(/[A-Za-z][A-Za-z'’-]*/g)||[]);
-  const norm=s=>String(s||'').toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z']/g,'');
-  const edit=(a,b)=>{a=norm(a);b=norm(b);if(Math.abs(a.length-b.length)>2)return 99;let p=Array(b.length+1);for(let j=0;j<=b.length;j++)p[j]=j;for(let i=1;i<=a.length;i++){let q=[i];for(let j=1;j<=b.length;j++)q[j]=Math.min(q[j-1]+1,p[j]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=q}return p[b.length]};
-  function contextual(text,script){
-    const out=[],t=toks(text),s=clean(script); if(!t.length||!s)return out;
-    const st=t.map(norm), sw=toks(s).map(norm);
-    // Look for near-identical words in the script; this catches OCR distortions and real on-screen typos without guessing from a dictionary alone.
-    for(let i=0;i<st.length;i++){
-      const w=st[i]; if(w.length<4)continue;
-      let best=null,bd=99;
-      for(let j=0;j<sw.length;j++){const d=edit(w,sw[j]);if(d<bd){bd=d;best=sw[j]}}
-      if(best&&bd===1&&best!==w)out.push({kind:'Spelling',found:t[i],suggestion:best,confidence:.96,reason:'Matches the supplied voiceover/script context'});
-      if(COMMON[w]&&COMMON[w].includes(best))out.push({kind:'Word choice',found:t[i],suggestion:best,confidence:.82,reason:'Context-sensitive commonly confused word'});
-    }
-    // Grammar/article sanity checks only when the surrounding phrase strongly determines the correction.
-    for(const r of BAD_CONTEXT){if(r.test(text))out.push({kind:'Grammar',found:text,suggestion:'Check article/wording',confidence:.72,reason:'Context-sensitive grammar check'});}
-    return out;
-  }
-  function upgradeResults(){
-    const box=document.querySelector('#vr-results'); if(!box)return;
-    // The existing tool remains the source of truth. This layer only enriches results and never removes them.
-    const script=clean(document.querySelector('#vr-script-text')?.value); if(!script)return;
-    box.querySelectorAll('.vr-result').forEach(card=>{
-      const text=card.textContent||''; const extra=contextual(text,script); if(!extra.length)return;
-      const marker=document.createElement('div');marker.className='vr-smart-note';marker.textContent='Context checked';card.appendChild(marker);
-    });
-  }
-  const style=document.createElement('style');style.textContent='.vr-smart-note{display:inline-flex;margin-top:8px;padding:4px 9px;border:1px solid rgba(120,190,255,.22);border-radius:999px;font-size:.7rem;opacity:.8}.vr-smart-note::before{content:"✦ ";}';document.head.appendChild(style);
-  new MutationObserver(()=>upgradeResults()).observe(document.documentElement,{subtree:true,childList:true});
+const $=s=>document.querySelector(s), clean=s=>String(s||'').replace(/\s+/g,' ').trim(), toks=s=>(clean(s).match(/[A-Za-z][A-Za-z'’-]*/g)||[]), norm=s=>String(s||'').toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z']/g,'');
+const COMMON={their:['there',"they're"],there:['their',"they're"],your:["you're"],youre:['your'],its:["it's"],"it's":['its'],then:['than'],than:['then'],affect:['effect'],effect:['affect'],loose:['lose'],lose:['loose'],advice:['advise'],advise:['advice'],principal:['principle'],principle:['principal'],compliment:['complement'],complement:['compliment'],stationary:['stationery'],stationery:['stationary'],weather:['whether'],whether:['weather'],accept:['except'],except:['accept'],lead:['led'],led:['lead'],breath:['breathe'],breathe:['breath']};
+const edit=(a,b)=>{a=norm(a);b=norm(b);if(Math.abs(a.length-b.length)>2)return 99;let p=Array(b.length+1);for(let j=0;j<=b.length;j++)p[j]=j;for(let i=1;i<=a.length;i++){let q=[i];for(let j=1;j<=b.length;j++)q[j]=Math.min(q[j-1]+1,p[j]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=q}return p[b.length]};
+const esc=s=>String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\':'&#92;','"':'&quot;'}[c]));
+let script=[],findings=[],hooked=false;
+function setup(){script=toks($('#vr-script-text')?.value).map(norm)}
+function near(word){if(word.length<4||!script.length)return null;let best=null,bd=99;for(const s of script){if(s===word)continue;const d=edit(word,s);if(d<bd){bd=d;best=s}}return best&&bd===1?best:null}
+function score(text){const a=toks(text).map(norm);if(!a.length||!script.length)return 0;let n=0;for(const x of a)if(script.includes(x))n++;return n/Math.max(a.length,script.length*.15)}
+function inspect(text,time){if(!script.length||score(text)<.45)return;for(const raw of toks(text)){const w=norm(raw),m=near(w);if(m)push({type:'Spelling',found:raw,fix:m,time,confidence:.96,reason:'Checked against the supplied voiceover/script'});for(const alt of (COMMON[w]||[]))if(script.includes(norm(alt)))push({type:'Word choice',found:raw,fix:alt,time,confidence:.9,reason:'Context-sensitive commonly confused word'})}}
+function push(x){const k=`${x.type}|${norm(x.found)}|${norm(x.fix)}`;if(!findings.some(y=>`${y.type}|${norm(y.found)}|${norm(y.fix)}`===k))findings.push(x)}
+function hook(){if(hooked||!window.Tesseract?.createScheduler)return;hooked=true;const orig=window.Tesseract.createScheduler.bind(window.Tesseract);window.Tesseract.createScheduler=()=>{const scheduler=orig(),add=scheduler.addJob.bind(scheduler);scheduler.addJob=(job,...args)=>{const v=$('#vr-video'),at=v&&Number.isFinite(v.currentTime)?v.currentTime:0;return add(job,...args).then(r=>{try{if(job==='recognize'&&r?.data){const d=r.data,text=d.text||((d.lines||[]).map(x=>x.text).join(' '));inspect(text,at)}}catch(e){}return r})};return scheduler}}
+function render(){const box=$('#vr-results');if(!box||!findings.length)return;let old=box.querySelector('.vr-smart-results');if(old)old.remove();const seen=new Set(),u=findings.filter(x=>{const k=`${x.type}|${norm(x.found)}|${norm(x.fix)}`;if(seen.has(k))return false;seen.add(k);return true});if(!u.length)return;const el=document.createElement('div');el.className='vr-smart-results';el.innerHTML=`<div class="vr-smart-head"><strong>✦ Context-aware findings</strong><span>${u.length} extra check${u.length===1?'':'s'}</span></div>${u.map(x=>`<div class="vr-smart-row"><time>${String(Math.floor(x.time/60)).padStart(2,'0')}:${String(Math.floor(x.time%60)).padStart(2,'0')}</time><span><b>${esc(x.found)}</b> → <strong>${esc(x.fix)}</strong><small>${esc(x.reason)}</small></span></div>`).join('')}`;box.appendChild(el)}
+const style=document.createElement('style');style.textContent='.vr-smart-results{margin-top:18px;padding:16px;border:1px solid rgba(150,210,255,.16);border-radius:18px;background:rgba(255,255,255,.025)}.vr-smart-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px}.vr-smart-head span{opacity:.55;font-size:.78rem}.vr-smart-row{display:flex;gap:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,.07)}.vr-smart-row time{font:12px ui-monospace,monospace;opacity:.55;min-width:48px}.vr-smart-row span{display:grid;gap:3px}.vr-smart-row small{opacity:.55;font-size:.72rem}';document.head.appendChild(style);
+const timer=setInterval(()=>{setup();if(window.Tesseract?.createScheduler){hook();clearInterval(timer)}},150);new MutationObserver(()=>{setup();if($('#vr-results')?.textContent?.includes('verified issue'))render()}).observe(document.documentElement,{subtree:true,childList:true});setup();
 })();
