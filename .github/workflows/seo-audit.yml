@@ -1,0 +1,79 @@
+name: SEO Auto-Pilot
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  seo-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate SEO configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          html = Path('index.html').read_text(encoding='utf-8')
+          robots = Path('robots.txt').read_text(encoding='utf-8') if Path('robots.txt').exists() else ''
+          sitemap = Path('sitemap.xml').read_text(encoding='utf-8') if Path('sitemap.xml').exists() else ''
+          config = Path('js/config.js').read_text(encoding='utf-8') if Path('js/config.js').exists() else ''
+
+          checks = {
+            'title': bool(re.search(r'<title>\s*[^<]+\s*</title>', html, re.I)),
+            'description': bool(re.search(r'<meta[^>]+name=["\']description["\'][^>]+content=["\'][^"\']+', html, re.I)),
+            'canonical': 'https://harshal-portfolio-tau.vercel.app/' in html,
+            'person_schema': '"@type": "Person"' in html,
+            'website_schema': '"@type": "WebSite"' in html,
+            'sitemap_url': 'https://harshal-portfolio-tau.vercel.app/sitemap.xml' in robots,
+            'sitemap_domain': 'https://harshal-portfolio-tau.vercel.app/' in sitemap,
+            'placeholder_removed': 'YOUR-VERCEL-DOMAIN' not in html + robots + sitemap,
+            'name_present': 'Harshal Chouhan' in html,
+            'config_name': 'name: "Harshal Chouhan"' in config,
+          }
+
+          for name, ok in checks.items():
+            print(f'{"PASS" if ok else "FAIL"}: {name}')
+
+          required = ['title','description','canonical','person_schema','website_schema','sitemap_url','sitemap_domain','placeholder_removed','name_present','config_name']
+          if not all(checks[x] for x in required):
+            raise SystemExit('Critical SEO configuration check failed.')
+          PY
+
+      - name: Check internal references
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          html = Path('index.html').read_text(encoding='utf-8')
+          refs = re.findall(r'(?:href|src)=["\']([^"\']+)["\']', html)
+          missing=[]
+          for ref in refs:
+            if ref.startswith(('#','http:','https:','mailto:','tel:','javascript:')):
+              continue
+            p = Path(ref.split('?',1)[0].split('#',1)[0])
+            if p and not p.exists():
+              missing.append(ref)
+          if missing:
+            print('Missing local references:')
+            print('\n'.join(sorted(set(missing))))
+            raise SystemExit(1)
+          print('PASS: local references')
+          PY
+
+      - name: SEO audit summary
+        run: echo "SEO Auto-Pilot audit completed successfully."
