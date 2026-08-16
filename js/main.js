@@ -10,8 +10,8 @@ load("./reveal.js","initTimeline");
 load("./projects.js","initProjects");
 load("./project-recovery.js","initProjectRecovery");
 load("./tilt.js","initTilt");
-// Legacy galaxy/photo renderer intentionally disabled: the Neo Arcade world owns visual effects now.
 load("./genz-playground.js","initGenzPlayground");
+load("./stability.js","initStability");
 loadSelf("./video-review.js");
 loadSelf("./smart-video-review.js");
 loadSelf("./mobile-fixes.js");
