@@ -1,0 +1,12 @@
+/* Typography polish — keeps the existing content, changes only type rendering. */
+:root{--world-display:'Bricolage Grotesque','Inter',sans-serif;--world-body:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+html,body{font-family:var(--world-body)!important;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.hero-title,.section-title,.nav-logo,h1,h2,h3{font-family:var(--world-display)!important;font-weight:800!important;font-style:normal!important}
+.hero-title{letter-spacing:-.065em!important;line-height:.88!important}
+.section-title{letter-spacing:-.045em!important;line-height:.95!important}
+.hero-role,.hero-line,.section-sub,.about-card p,.timeline-content,.project-card p,.skill-group p,.edu-card p,.cert-card p,.beyond-card p,.contact-card p{font-family:var(--world-body)!important;letter-spacing:-.01em}
+.eyebrow,.gp-section-index,.neo-tag,.card-num,.stage-num,.timeline-tag,.edu-year,.nav-links a,.btn{font-family:var(--world-body)!important}
+.nav-logo{letter-spacing:-.06em!important}
+.nav-links a{font-weight:600!important;letter-spacing:-.015em!important}
+.btn{font-weight:700!important;letter-spacing:-.015em!important}
+@media(max-width:760px){.hero-title{font-size:clamp(3.2rem,16vw,6rem)!important;line-height:.9!important;letter-spacing:-.06em!important}.section-title{font-size:clamp(2.3rem,11vw,4rem)!important}}
