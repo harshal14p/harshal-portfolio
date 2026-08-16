@@ -12,3 +12,5 @@ function installMobileFixes(){
   document.head.appendChild(style);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installMobileFixes,{once:true});else installMobileFixes();
+/* Load the new visual layer after the existing mobile safety fixes. */
+import('./cinematic-enhancement.js').catch(e=>console.warn('[Portfolio] cinematic layer skipped',e));
