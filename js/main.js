@@ -10,6 +10,7 @@ load("./reveal.js","initReveal");
 load("./reveal.js","initWorkflow");
 load("./reveal.js","initTimeline");
 load("./projects.js","initProjects");
+load("./project-recovery.js","initProjectRecovery");
 load("./tilt.js","initTilt");
 load("./galaxy.js?v=10","initGalaxy",true);
 load("./photo-effects.js","initPhotoEffects");
@@ -24,7 +25,20 @@ async function loadSelf(path){try{await import(path);}catch(error){console.warn(
 function showContent(){document.querySelectorAll(".reveal").forEach(el=>{el.classList.add("is-visible");el.style.opacity="1";el.style.transform="translateY(0)";});}
 function ensureGalaxyCanvas(){if(document.getElementById("galaxy-canvas"))return;const canvas=document.createElement("canvas");canvas.id="galaxy-canvas";canvas.setAttribute("aria-hidden","true");Object.assign(canvas.style,{position:"fixed",inset:"0",width:"100vw",height:"100vh",zIndex:"1",pointerEvents:"none",display:"block"});document.body.prepend(canvas)}
 function applyConfig(){document.querySelectorAll('[data-bind="name"]').forEach(el=>el.textContent=SITE.name);document.querySelectorAll('[data-bind="name-short"]').forEach(el=>el.textContent=SITE.nameShort);document.querySelectorAll('[data-bind="email-link"]').forEach(el=>el.href=`mailto:${SITE.email}`);document.querySelectorAll('[data-bind="linkedin-link"]').forEach(el=>el.href=SITE.linkedin);document.querySelectorAll('[data-bind="instagram-link"]').forEach(el=>el.href=SITE.instagram);document.querySelectorAll('[data-bind="resume-link"]').forEach(el=>el.href=SITE.resumePath);document.querySelectorAll('[data-bind="profile-image"]').forEach(img=>img.src=SITE.profileImagePath)}
-function applySEO(){document.title="Harshal Chouhan | Key Account Manager, Project Coordinator & MBA Finance";const meta=document.querySelector('meta[name="description"]');if(meta)meta.content="Portfolio of Harshal Chouhan — Key Account Manager, Project Coordinator and MBA Finance professional."}
+function applySEO(){
+  const base="https://harshal-portfolio-tau.vercel.app/";
+  const title="Harshal Chouhan | Key Account Manager, Project Coordinator & MBA Finance";
+  const description="Harshal Chouhan — Key Account Manager and Project Coordinator with an MBA in Finance, focused on client relationships, project coordination and creative execution.";
+  document.title=title;
+  const setMeta=(selector,content)=>{let el=document.head.querySelector(selector);if(!el){el=document.createElement("meta");if(selector.includes('property=')){el.setAttribute("property",selector.match(/property=\"([^\"]+)/)?.[1]||"")}else{el.setAttribute("name",selector.match(/name=\"([^\"]+)/)?.[1]||"")}document.head.appendChild(el)}el.setAttribute("content",content)};
+  const setLink=(rel,href)=>{let el=document.head.querySelector(`link[rel="${rel}"]`);if(!el){el=document.createElement("link");el.rel=rel;document.head.appendChild(el)}el.href=href};
+  setMeta('meta[name="description"]',description);setMeta('meta[name="author"]',SITE.name);setMeta('meta[name="robots"]','index, follow, max-image-preview:large');
+  setMeta('meta[property="og:title"]',title);setMeta('meta[property="og:description"]',description);setMeta('meta[property="og:type"]','website');setMeta('meta[property="og:url"]',base);setMeta('meta[property="og:site_name"]',SITE.name);setMeta('meta[property="og:image"]',new URL(SITE.profileImagePath,base).href);
+  setMeta('meta[name="twitter:card"]','summary_large_image');setMeta('meta[name="twitter:title"]',title);setMeta('meta[name="twitter:description"]',description);setMeta('meta[name="twitter:image"]',new URL(SITE.profileImagePath,base).href);
+  setLink('canonical',base);
+  let schema=document.getElementById('seo-schema');if(!schema){schema=document.createElement('script');schema.id='seo-schema';schema.type='application/ld+json';document.head.appendChild(schema)}
+  schema.textContent=JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":base+"#website","url":base,"name":"Harshal Chouhan","alternateName":"Harshal Chouhan Portfolio"},{"@type":"Person","@id":base+"#person","name":"Harshal Chouhan","url":base,"image":new URL(SITE.profileImagePath,base).href,"jobTitle":"Key Account Manager / Project Coordinator","description":"Key Account Manager and Project Coordinator with an MBA in Finance.","sameAs":[SITE.linkedin]},{"@type":"WebPage","@id":base+"#webpage","url":base,"name":title,"isPartOf":{"@id":base+"#website"},"about":{"@id":base+"#person"},"description":description}]});
+}
 function removeCertificateSection(){document.querySelectorAll('section.certifications,#certifications').forEach(el=>el.remove());document.querySelectorAll('nav a,.nav-links a,.mobile-menu a').forEach(el=>{if(/certif/i.test(el.textContent||""))el.remove()})}
 function getWhatsAppHref(){const phone=String(SITE.phone||"").replace(/\D/g,"");return phone?`https://wa.me/91${phone}?text=${encodeURIComponent("Hi Harshal, I found your portfolio and would like to connect with you.")}`:"#"}
 function initWhatsApp(){document.querySelectorAll('[data-bind="whatsapp-link"]').forEach(el=>{el.href=getWhatsAppHref();el.target="_blank";el.rel="noopener noreferrer"})}
