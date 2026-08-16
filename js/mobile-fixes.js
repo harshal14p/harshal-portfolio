@@ -1,5 +1,6 @@
 import "./cinematic-enhancement.js";
 import "./seo-fix.js";
+import "./project-recovery.js";
 
 function installMobileFixes(){
   if(document.getElementById('portfolio-mobile-fixes'))return;
