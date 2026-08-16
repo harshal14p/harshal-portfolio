@@ -7,6 +7,7 @@ export function initGenzPlayground(){
   buildObjects();
   initPointerParallax();
   initSectionLabels();
+  initScrollDepth();
 }
 
 function buildObjects(){
@@ -15,7 +16,11 @@ function buildObjects(){
     ["gp-ring",{right:"4vw",top:"54vh",animationDelay:"-6s"}],
     ["gp-orb",{left:"11vw",top:"31vh",animationDelay:"-3s"}],
     ["gp-label",{right:"8vw",top:"80vh"},"DIGITAL PLAYGROUND"],
-    ["gp-label",{left:"13vw",top:"72vh"},"SCROLL // EXPLORE"]
+    ["gp-label",{left:"13vw",top:"72vh"},"SCROLL // EXPLORE"],
+    ["gp-cube gp-cube-small",{left:"6vw",top:"15vh",animationDelay:"-5s"}],
+    ["gp-ring gp-ring-small",{right:"22vw",top:"11vh",animationDelay:"-11s"}],
+    ["gp-orb gp-orb-blue",{right:"15vw",top:"70vh",animationDelay:"-4s"}],
+    ["gp-label",{left:"5vw",top:"52vh"},"HC // SYSTEM ONLINE"]
   ];
   const frag=document.createDocumentFragment();
   specs.forEach(([cls,pos,text])=>{
@@ -60,6 +65,23 @@ function initSectionLabels(){
     section.appendChild(label);
   });
   const style=document.createElement("style");
-  style.textContent='.gp-section-index{position:absolute;right:2.5%;top:4%;font:800 9px/1 Inter,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.3);pointer-events:none}.hero-photo-inner{transform:rotate(calc(5deg + var(--gp-x,0deg))) perspective(1000px) rotateY(calc(-8deg + var(--gp-y,0deg)))!important}.mobile-menu.open{display:grid!important}';
+  style.textContent='.gp-section-index{position:absolute;right:2.5%;top:4%;font:800 9px/1 Inter,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.3);pointer-events:none}.hero-photo-inner{transform:rotate(calc(5deg + var(--gp-x,0deg))) perspective(1000px) rotateY(calc(-8deg + var(--gp-y,0deg)))!important}.mobile-menu.open{display:grid!important}.gp-cube-small{width:54px;height:54px;opacity:.55}.gp-ring-small{width:82px;height:82px;opacity:.5}.gp-orb-blue{background:radial-gradient(circle at 30% 25%,#fff 0 3%,rgba(49,156,255,.95) 12%,rgba(49,156,255,.22) 48%,transparent 72%)!important;box-shadow:0 0 55px rgba(49,156,255,.38)!important}';
   document.head.appendChild(style);
+}
+
+function initScrollDepth(){
+  let last=0,raf=0;
+  window.addEventListener("scroll",()=>{
+    if(raf)return;
+    raf=requestAnimationFrame(()=>{
+      raf=0;
+      const y=window.scrollY||0;
+      const delta=Math.max(-30,Math.min(30,(y-last)));
+      last=y;
+      document.querySelectorAll(".gp-object").forEach(el=>{
+        const d=Number(el.dataset.gpDepth||.5);
+        el.style.marginTop=`${Math.max(-18,Math.min(18,delta*d))}px`;
+      });
+    });
+  },{passive:true});
 }
