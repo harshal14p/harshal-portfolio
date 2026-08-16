@@ -1,0 +1,15 @@
+/* Production safety layer: prevents visual effects from hiding core portfolio content. */
+.hero-photo{position:absolute!important;z-index:8!important;visibility:visible!important;opacity:1!important}
+.hero-photo-inner{position:relative!important;z-index:9!important;visibility:visible!important}
+.hero-photo-inner.reveal{opacity:1!important;transform:none!important}
+.hero-photo-inner img[data-bind="profile-image"]{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:auto!important;max-width:420px!important;min-height:280px;object-fit:cover;object-position:center top;border-radius:inherit}
+.project-grid{position:relative!important;z-index:10!important;display:grid!important;visibility:visible!important;opacity:1!important}
+.project-card{visibility:visible!important;opacity:1!important}
+.project-card.reveal{opacity:1!important;transform:none!important}
+.project-thumb{overflow:hidden!important;position:relative!important;min-height:220px}
+.project-thumb img{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:100%!important;min-height:220px;object-fit:cover}
+.project-thumb .thumb-fallback{position:absolute;inset:0;display:grid;place-items:center;z-index:0}
+.project-thumb img{position:relative;z-index:1}
+.neo-world{pointer-events:none!important;z-index:3!important}
+.neo-object{pointer-events:none!important}
+@media(max-width:760px){.hero-photo{position:relative!important;right:auto!important;bottom:auto!important;margin:32px auto 0;max-width:420px;width:88%}.hero-photo-inner img[data-bind="profile-image"]{min-height:0}.project-grid{grid-template-columns:1fr!important}}
