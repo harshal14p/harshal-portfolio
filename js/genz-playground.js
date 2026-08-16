@@ -1,12 +1,20 @@
-/* Neo Arcade — visual-only redesign layer. Existing portfolio content/functionality stays intact. */
+/* Premium World — single background 3D scene. Portfolio content remains untouched. */
 export function initGenzPlayground(){
   if(document.documentElement.dataset.gpReady)return;
   document.documentElement.dataset.gpReady="1";
-  ["css/genz-playground.css","css/neo-arcade.css","css/world-overhaul.css","css/world-font-fix.css"].forEach(href=>{if(!document.querySelector(`link[href="${href}"]`)){const link=document.createElement("link");link.rel="stylesheet";link.href=href;document.head.appendChild(link)}});
+  ["css/genz-playground.css","css/neo-arcade.css","css/world-overhaul.css","css/world-font-fix.css"].forEach(href=>{
+    if(!document.querySelector(`link[href="${href}"]`)){const link=document.createElement("link");link.rel="stylesheet";link.href=href;document.head.appendChild(link)}
+  });
   ["galaxy-canvas","smoke-canvas","scene-canvas","scene-fallback"].forEach(id=>document.getElementById(id)?.remove());
-  buildObjects();initPointerParallax();initSectionLabels();initScrollDepth();
+  buildBlackHole();
 }
-function buildObjects(){if(document.querySelector(".neo-world"))return;const world=document.createElement("div");world.className="neo-world";world.setAttribute("aria-hidden","true");const specs=[["neo-object neo-cube",{right:"9vw",top:"15vh",animationDelay:"-2s"}],["neo-object neo-ring",{right:"3vw",top:"53vh",animationDelay:"-6s"}],["neo-object neo-orb",{left:"10vw",top:"30vh",animationDelay:"-3s"}],["neo-object neo-disc",{left:"7vw",top:"70vh",animationDelay:"-8s"}],["neo-object neo-shard",{right:"25vw",top:"22vh",animationDelay:"-4s"}],["neo-object neo-cube",{left:"5vw",top:"16vh",animationDelay:"-5s",transform:"scale(.48) rotate(25deg)",opacity:".45"}],["neo-object neo-orb",{right:"16vw",top:"72vh",animationDelay:"-4s",transform:"scale(.75)",opacity:".65"}],["neo-object neo-tag",{right:"8vw",top:"81vh"},"DIGITAL PLAYGROUND"],["neo-object neo-tag",{left:"12vw",top:"72vh"},"SCROLL // EXPLORE"],["neo-object neo-tag",{left:"5vw",top:"51vh"},"HC // SYSTEM ONLINE"]];specs.forEach(([cls,pos,text])=>{const el=document.createElement("div");el.className=cls;Object.assign(el.style,pos);if(text)el.textContent=text;el.dataset.depth=String(Math.random()*.65+.35);world.appendChild(el)});document.body.appendChild(world)}
-function initPointerParallax(){let tx=0,ty=0,cx=0,cy=0,raf=0;window.addEventListener("pointermove",e=>{if(e.pointerType&&e.pointerType!=="mouse")return;tx=(e.clientX/window.innerWidth-.5)*2;ty=(e.clientY/window.innerHeight-.5)*2;if(!raf)raf=requestAnimationFrame(tick)},{passive:true});function tick(){raf=0;cx+=(tx-cx)*.08;cy+=(ty-cy)*.08;document.querySelectorAll(".neo-object").forEach(el=>{const d=Number(el.dataset.depth||.5);el.style.translate=`${cx*20*d}px ${cy*15*d}px`});const hero=document.querySelector(".hero-photo-inner");if(hero){hero.style.setProperty("--neo-rx",`${cy*-3}deg`);hero.style.setProperty("--neo-ry",`${cx*4}deg`)}raf=requestAnimationFrame(tick)}}
-function initSectionLabels(){const ids=["hero","about","whatido","workflow","experience","work","skills","education","certifications","beyond","exploring","contact"];ids.forEach((id,i)=>{const section=document.getElementById(id);if(!section||section.querySelector(".gp-section-index"))return;const label=document.createElement("span");label.className="gp-section-index";label.textContent=`${String(i+1).padStart(2,"0")} / ${id.replace(/-/g," ").toUpperCase()}`;section.appendChild(label)})}
-function initScrollDepth(){let last=window.scrollY||0,raf=0;window.addEventListener("scroll",()=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const y=window.scrollY||0;const delta=Math.max(-24,Math.min(24,y-last));last=y;document.querySelectorAll(".neo-object").forEach(el=>{const d=Number(el.dataset.depth||.5);el.style.setProperty("--scroll-shift",`${delta*d}px`)})})},{passive:true})}
+function buildBlackHole(){
+  document.querySelector(".neo-world")?.remove();
+  const world=document.createElement("div");world.className="neo-world";world.setAttribute("aria-hidden","true");
+  const hole=document.createElement("div");hole.className="neo-blackhole";
+  hole.innerHTML='<div class="blackhole-ring ring-one"></div><div class="blackhole-ring ring-two"></div><div class="blackhole-core"></div><div class="blackhole-glow"></div>';
+  world.appendChild(hole);
+  const specks=document.createElement("div");specks.className="neo-specks";
+  for(let i=0;i<42;i++){const s=document.createElement("i");s.style.setProperty("--x",`${Math.random()*100}%`);s.style.setProperty("--y",`${Math.random()*100}%`);s.style.setProperty("--d",`${3+Math.random()*7}s`);s.style.setProperty("--delay",`${-Math.random()*8}s`);specks.appendChild(s)}
+  world.appendChild(specks);document.body.appendChild(world);
+}
