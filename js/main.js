@@ -10,8 +10,7 @@ load("./reveal.js","initTimeline");
 load("./projects.js","initProjects");
 load("./project-recovery.js","initProjectRecovery");
 load("./tilt.js","initTilt");
-// Legacy galaxy renderer intentionally disabled: the site now uses the Neo Arcade world.
-load("./photo-effects.js","initPhotoEffects");
+// Legacy galaxy/photo renderer intentionally disabled: the Neo Arcade world owns visual effects now.
 load("./genz-playground.js","initGenzPlayground");
 loadSelf("./video-review.js");
 loadSelf("./smart-video-review.js");
