@@ -8,7 +8,7 @@ on:
     - cron: "17 3 * * 1"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   seo-audit:
@@ -16,6 +16,43 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Auto-repair SEO metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+          base = 'https://harshal-portfolio-tau.vercel.app/'
+          title = 'Harshal Chouhan | Key Account Manager, Project Coordinator & MBA Finance'
+          description = 'Harshal Chouhan — Key Account Manager and Project Coordinator with an MBA in Finance, focused on client relationships, project coordination and creative execution.'
+          image = base + 'assets/profile.jpg'
+
+          html = html.replace('https://YOUR-VERCEL-DOMAIN.vercel.app/', base)
+          html = html.replace('content="Harshal Chouhan — Key Account Manager | Project Coordinator | MBA Finance"', f'content="{title}"')
+          html = re.sub(r'(<meta[^>]+name="description"[^>]+content=")[^"]*(")', lambda m: m.group(1)+description+m.group(2), html, count=1, flags=re.I)
+          html = re.sub(r'(<meta[^>]+name="twitter:image"[^>]+content=")[^"]*(")', lambda m: m.group(1)+image+m.group(2), html, count=1, flags=re.I)
+          html = re.sub(r'(<meta[^>]+property="og:image"[^>]+content=")[^"]*(")', lambda m: m.group(1)+image+m.group(2), html, count=1, flags=re.I)
+          path.write_text(html, encoding='utf-8')
+          PY
+
+      - name: Commit safe SEO repairs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No SEO repairs needed."
+          else
+            git commit -m "chore(seo): auto-repair site metadata"
+            git push
+          fi
 
       - name: Validate SEO configuration
         shell: bash
@@ -76,4 +113,4 @@ jobs:
           PY
 
       - name: SEO audit summary
-        run: echo "SEO Auto-Pilot audit completed successfully."
+        run: echo "SEO Auto-Pilot audit and safe repairs completed successfully."
