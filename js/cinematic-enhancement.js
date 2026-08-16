@@ -1,0 +1,11 @@
+(()=>{'use strict';
+if(document.getElementById('cinematic-world'))return;
+const link=document.createElement('link');link.rel='stylesheet';link.href='css/cinematic-enhancement.css?v=1';document.head.appendChild(link);
+const world=document.createElement('div');world.id='cinematic-world';world.setAttribute('aria-hidden','true');world.innerHTML='<span class="cx-orb one"></span><span class="cx-orb two"></span><span class="cx-orb three"></span><span class="cx-grid"></span>';
+document.body.prepend(world);
+const hud=document.createElement('div');hud.className='cx-hud';hud.textContent='SYSTEM // PORTFOLIO ONLINE';const hero=document.querySelector('.hero');if(hero)hero.appendChild(hud);
+let tx=0,ty=0,rx=0,ry=0;
+window.addEventListener('pointermove',e=>{tx=(e.clientX/innerWidth-.5);ty=(e.clientY/innerHeight-.5);},{passive:true});
+function frame(){rx+=(tx-rx)*.035;ry+=(ty-ry)*.035;world.style.transform=`translate3d(${rx*-8}px,${ry*-5}px,0)`;const card=document.querySelector('.hero-photo-inner');if(card&&!matchMedia('(prefers-reduced-motion: reduce)').matches){card.style.transform=`perspective(1100px) rotateY(${rx*-9-7}deg) rotateX(${ry*5+2}deg)`}requestAnimationFrame(frame)}requestAnimationFrame(frame);
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('cx-active')}),{threshold:.18});document.querySelectorAll('.section').forEach(s=>observer.observe(s));
+})();
