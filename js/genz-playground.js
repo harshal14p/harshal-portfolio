@@ -60,6 +60,6 @@ function initSectionLabels(){
     section.appendChild(label);
   });
   const style=document.createElement("style");
-  style.textContent='.gp-section-index{position:absolute;right:2.5%;top:4%;font:800 9px/1 Inter,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.3);pointer-events:none}.hero-photo-inner{transform:rotate(calc(5deg + var(--gp-x,0deg))) perspective(1000px) rotateY(calc(-8deg + var(--gp-y,0deg)))!important}';
+  style.textContent='.gp-section-index{position:absolute;right:2.5%;top:4%;font:800 9px/1 Inter,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.3);pointer-events:none}.hero-photo-inner{transform:rotate(calc(5deg + var(--gp-x,0deg))) perspective(1000px) rotateY(calc(-8deg + var(--gp-y,0deg)))!important}.mobile-menu.open{display:grid!important}';
   document.head.appendChild(style);
 }
