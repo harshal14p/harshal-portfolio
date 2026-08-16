@@ -1,3 +1,6 @@
+import "./cinematic-enhancement.js";
+import "./seo-fix.js";
+
 function installMobileFixes(){
   if(document.getElementById('portfolio-mobile-fixes'))return;
   const style=document.createElement('style');
@@ -12,5 +15,3 @@ function installMobileFixes(){
   document.head.appendChild(style);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installMobileFixes,{once:true});else installMobileFixes();
-/* Load the new visual layer after the existing mobile safety fixes. */
-import('./cinematic-enhancement.js').catch(e=>console.warn('[Portfolio] cinematic layer skipped',e));
