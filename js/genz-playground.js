@@ -2,7 +2,7 @@
 export function initGenzPlayground(){
   if(document.documentElement.dataset.gpReady)return;
   document.documentElement.dataset.gpReady="1";
-  document.head.insertAdjacentHTML("beforeend",'<link rel="stylesheet" href="css/genz-playground.css">');
+  document.head.insertAdjacentHTML("beforeend",'<link rel="stylesheet" href="css/genz-playground.css"><link rel="stylesheet" href="css/neo-arcade.css">');
   if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   buildObjects();
   initPointerParallax();
@@ -12,20 +12,21 @@ export function initGenzPlayground(){
 
 function buildObjects(){
   const specs=[
-    ["gp-cube",{right:"10vw",top:"16vh",animationDelay:"-2s"}],
-    ["gp-ring",{right:"4vw",top:"54vh",animationDelay:"-6s"}],
-    ["gp-orb",{left:"11vw",top:"31vh",animationDelay:"-3s"}],
-    ["gp-label",{right:"8vw",top:"80vh"},"DIGITAL PLAYGROUND"],
-    ["gp-label",{left:"13vw",top:"72vh"},"SCROLL // EXPLORE"],
-    ["gp-cube gp-cube-small",{left:"6vw",top:"15vh",animationDelay:"-5s"}],
-    ["gp-ring gp-ring-small",{right:"22vw",top:"11vh",animationDelay:"-11s"}],
-    ["gp-orb gp-orb-blue",{right:"15vw",top:"70vh",animationDelay:"-4s"}],
-    ["gp-label",{left:"5vw",top:"52vh"},"HC // SYSTEM ONLINE"]
+    ["neo-object neo-cube",{right:"9vw",top:"15vh",animationDelay:"-2s"}],
+    ["neo-object neo-ring",{right:"3vw",top:"53vh",animationDelay:"-6s"}],
+    ["neo-object neo-orb",{left:"10vw",top:"30vh",animationDelay:"-3s"}],
+    ["neo-object neo-disc",{left:"7vw",top:"70vh",animationDelay:"-8s"}],
+    ["neo-object neo-shard",{right:"25vw",top:"22vh",animationDelay:"-4s"}],
+    ["neo-object neo-cube",{left:"5vw",top:"16vh",animationDelay:"-5s",transform:"scale(.48) rotate(25deg)",opacity:".45"}],
+    ["neo-object neo-orb",{right:"16vw",top:"72vh",animationDelay:"-4s",transform:"scale(.75)",opacity:".65"}],
+    ["neo-object neo-tag",{right:"8vw",top:"81vh"},"DIGITAL PLAYGROUND"],
+    ["neo-object neo-tag",{left:"12vw",top:"72vh"},"SCROLL // EXPLORE"],
+    ["neo-object neo-tag",{left:"5vw",top:"51vh"},"HC // SYSTEM ONLINE"]
   ];
   const frag=document.createDocumentFragment();
   specs.forEach(([cls,pos,text])=>{
     const el=document.createElement("div");
-    el.className=`gp-object ${cls}`;
+    el.className=cls;
     Object.assign(el.style,pos);
     if(text)el.textContent=text;
     el.dataset.gpDepth=String(Math.random()*0.8+0.35);
@@ -44,7 +45,7 @@ function initPointerParallax(){
   },{passive:true});
   function tick(){
     raf=0;cx+=(tx-cx)*.08;cy+=(ty-cy)*.08;
-    document.querySelectorAll(".gp-object").forEach(el=>{
+    document.querySelectorAll(".gp-object,.neo-object").forEach(el=>{
       const d=Number(el.dataset.gpDepth||.5);
       el.style.translate=`${cx*18*d}px ${cy*14*d}px`;
     });
@@ -78,7 +79,7 @@ function initScrollDepth(){
       const y=window.scrollY||0;
       const delta=Math.max(-30,Math.min(30,(y-last)));
       last=y;
-      document.querySelectorAll(".gp-object").forEach(el=>{
+      document.querySelectorAll(".gp-object,.neo-object").forEach(el=>{
         const d=Number(el.dataset.gpDepth||.5);
         el.style.marginTop=`${Math.max(-18,Math.min(18,delta*d))}px`;
       });
