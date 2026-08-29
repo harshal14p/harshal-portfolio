@@ -1,20 +1,22 @@
 (()=>{'use strict';
 if(document.getElementById('cinematic-world'))return;
-const link=document.createElement('link');link.rel='stylesheet';link.href='css/cinematic-enhancement.css?v=2';document.head.appendChild(link);
+const link=document.createElement('link');link.rel='stylesheet';link.href='css/cinematic-enhancement.css?v=3';document.head.appendChild(link);
 const world=document.createElement('div');world.id='cinematic-world';world.setAttribute('aria-hidden','true');world.innerHTML='<span class="cx-orb one"></span><span class="cx-orb two"></span><span class="cx-orb three"></span><span class="cx-ring r1"></span><span class="cx-ring r2"></span><span class="cx-grid"></span><span class="cx-scan"></span>';document.body.prepend(world);
-const hud=document.createElement('div');hud.className='cx-hud';hud.innerHTML='<span class="cx-live"></span><span>SYSTEM // PORTFOLIO ONLINE</span><b>01 — 07</b>';const hero=document.querySelector('.hero');if(hero)hero.appendChild(hud);
-const progress=document.createElement('div');progress.className='cx-progress';progress.innerHTML='<span></span>';document.body.appendChild(progress);
-const labels={about:'01 // IDENTITY',whatido:'02 // CAPABILITIES',workflow:'03 // MISSION PATH',experience:'04 // CAREER MAP',work:'05 // SELECTED WORK',skills:'06 // SKILL SYSTEM',education:'07 // ACADEMICS',beyond:'08 // BEYOND WORK',exploring:'09 // EXPERIMENT LAB',contact:'10 // CONNECT'};
-Object.entries(labels).forEach(([id,label])=>{const s=document.getElementById(id);if(!s)return;s.classList.add('cx-scene');const tag=document.createElement('div');tag.className='cx-section-code';tag.textContent=label;s.querySelector('.container')?.prepend(tag)});
-function enhanceWorkflow(){const track=document.querySelector('.workflow-track');if(!track)return;const particle=document.createElement('span');particle.className='cx-route-particle';track.appendChild(particle);document.querySelectorAll('.stage').forEach((el,i)=>{el.style.setProperty('--stage-delay',`${i*90}ms`);el.classList.add('cx-stage')})}
-function enhanceExperience(){document.querySelectorAll('.timeline-item').forEach((el,i)=>{el.classList.add('cx-career-node');const n=document.createElement('span');n.className='cx-node';n.textContent=String(i+1).padStart(2,'0');el.prepend(n)})}
-function enhanceSkills(){const grid=document.querySelector('.skills-grid');if(!grid||grid.dataset.cxReady)return;grid.dataset.cxReady='1';grid.classList.add('cx-skill-system');grid.querySelectorAll('.skill-group').forEach((el,i)=>{el.classList.add('cx-skill-orbit');el.style.setProperty('--orbit-i',i);const icon=document.createElement('span');icon.className='cx-skill-core';icon.textContent=String(i+1).padStart(2,'0');el.prepend(icon)})}
+
+/* Decorative HUD/section-code overlays intentionally disabled. They were
+   obscuring content and adding unwanted pills/labels throughout the site. */
+const hud=null;
+const progress=null;
+const labels={};
+
+function enhanceWorkflow(){const track=document.querySelector('.workflow-track');if(!track)return;document.querySelectorAll('.stage').forEach((el,i)=>{el.style.setProperty('--stage-delay',`${i*90}ms`);el.classList.add('cx-stage')})}
+function enhanceExperience(){document.querySelectorAll('.timeline-item').forEach((el,i)=>{el.classList.add('cx-career-node')})}
+function enhanceSkills(){const grid=document.querySelector('.skills-grid');if(!grid||grid.dataset.cxReady)return;grid.dataset.cxReady='1';grid.classList.add('cx-skill-system');grid.querySelectorAll('.skill-group').forEach((el,i)=>{el.classList.add('cx-skill-orbit')})}
 function enhanceProjects(){document.querySelectorAll('.project-card').forEach((el,i)=>{el.classList.add('cx-project');el.style.setProperty('--project-i',i)})}
-function enhanceExploring(){const s=document.getElementById('exploring');if(!s||s.querySelector('.cx-lab-bar'))return;const bar=document.createElement('div');bar.className='cx-lab-bar';bar.innerHTML='<span>EXPERIMENT LAB</span><span class="cx-lab-status">● ACTIVE</span>';s.querySelector('.container')?.prepend(bar)}
-function enhanceContact(){const s=document.getElementById('contact');if(!s)return;s.classList.add('cx-contact-scene');const glow=document.createElement('div');glow.className='cx-contact-glow';s.prepend(glow)}
+function enhanceExploring(){return}
+function enhanceContact(){const s=document.getElementById('contact');if(!s)return;s.classList.add('cx-contact-scene');if(!s.querySelector('.cx-contact-glow')){const glow=document.createElement('div');glow.className='cx-contact-glow';s.prepend(glow)}}
 enhanceWorkflow();enhanceExperience();enhanceSkills();enhanceProjects();enhanceExploring();enhanceContact();
 let tx=0,ty=0,rx=0,ry=0;window.addEventListener('pointermove',e=>{tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5},{passive:true});
 function frame(){rx+=(tx-rx)*.035;ry+=(ty-ry)*.035;world.style.transform=`translate3d(${rx*-8}px,${ry*-5}px,0)`;const card=document.querySelector('.hero-photo-inner');if(card&&!matchMedia('(prefers-reduced-motion: reduce)').matches){card.style.transform=`perspective(1100px) rotateY(${rx*-9-7}deg) rotateX(${ry*5+2}deg) translateZ(0)`}document.documentElement.style.setProperty('--cx-mx',`${rx*18}px`);document.documentElement.style.setProperty('--cx-my',`${ry*12}px`);requestAnimationFrame(frame)}requestAnimationFrame(frame);
-function updateProgress(){const max=document.documentElement.scrollHeight-innerHeight;const p=max>0?scrollY/max:0;progress.firstElementChild.style.transform=`scaleX(${p})`;const sections=[...document.querySelectorAll('.section[id]')];let active=sections[0]?.id;sections.forEach(s=>{if(scrollY+innerHeight*.35>=s.offsetTop)active=s.id});const idx=Object.keys(labels).indexOf(active);if(hud.querySelector('b'))hud.querySelector('b').textContent=`${String(Math.max(1,idx+1)).padStart(2,'0')} — ${String(Object.keys(labels).length).padStart(2,'0')}`}window.addEventListener('scroll',updateProgress,{passive:true});updateProgress();
 const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('cx-active')}),{threshold:.18});document.querySelectorAll('.section,.about-card,.tilt-card,.timeline-item,.skill-group,.edu-card,.beyond-card,.project-card').forEach(s=>observer.observe(s));
 })();
