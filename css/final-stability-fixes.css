@@ -1,34 +1,26 @@
-/* FINAL STABILITY LAYER — safe containment only.
-   Existing hero/grid geometry remains the source of truth. */
+/* FINAL STABILITY LAYER — preserve the original layout; only fix overflow/cropping. */
 *,*::before,*::after{box-sizing:border-box}
 html,body{max-width:100%;overflow-x:hidden!important}
 img,video,canvas,svg{max-width:100%}
 
-/* PROFILE IMAGE: keep it entirely below the fixed navigation and never crop it. */
-.hero-photo{min-width:0!important;max-width:100%!important;z-index:30!important}
-.hero-photo-inner{width:100%!important;height:100%!important;max-width:100%!important;overflow:hidden!important;aspect-ratio:420/520!important;transform:perspective(1200px) rotateY(-4deg) rotateX(1deg) translateZ(0)!important}
+/* PROFILE IMAGE: keep the original absolute placement and frame geometry. */
+.hero-photo{position:absolute!important;right:6%!important;top:50%!important;width:min(360px,32vw)!important;max-width:360px!important;min-width:0!important;aspect-ratio:420/520!important;transform:translateY(-50%)!important;z-index:30!important}
+.hero-photo-inner{position:relative!important;width:100%!important;height:100%!important;max-width:100%!important;overflow:hidden!important;aspect-ratio:420/520!important;transform:none!important}
 .hero-photo-inner img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;aspect-ratio:auto!important;object-fit:contain!important;object-position:center center!important}
 
-/* The original 3D translateZ was projecting the photo upward into the fixed
-   header. Keep the tilt, remove the depth translation, and anchor the photo
-   lower in the hero. */
-@media(min-width:761px){
-  .hero-photo{top:calc(50% + 72px)!important;transform:translateY(-50%)!important}
-}
+/* Keep the fixed navigation above the hero without moving the hero content. */
+.site-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:9999!important;background:rgba(3,3,5,.96)!important}
+.section[id]{scroll-margin-top:96px}
 
 /* Preserve original name typography and placement. */
 .hero-title{max-width:100%!important;min-width:0!important;overflow-wrap:normal!important;word-break:normal!important}
 .hero-title span{max-width:100%!important}
 
-/* Text containment without changing normal typography/spacing. */
+/* Text containment without changing normal typography or spacing. */
 .section-title,.section-sub,.hero-role,.hero-line,.about-card,.tilt-card,.skill-group,.edu-card,.cert-card,.beyond-card,.timeline-item,.project-card,.contact-card,.vr-results,.vr-smart-results{min-width:0!important;max-width:100%}
 .section-title,.section-sub,.hero-role,.hero-line,p,h1,h2,h3,h4,h5,h6,li{overflow-wrap:break-word}
 
-/* Navigation is always above hero content and has a solid backdrop. */
-.site-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:9999!important;background:rgba(3,3,5,.96)!important}
-.section[id]{scroll-margin-top:96px}
-
-/* Prevent horizontal overflow without changing existing grid geometry. */
+/* Prevent horizontal overflow while preserving existing grid geometry. */
 .container,.nav-inner,.cards-grid,.skills-grid,.edu-grid,.project-grid,.workflow-track,.timeline,.contact-grid{min-width:0!important;max-width:100%}
 .cards-grid>*,.skills-grid>*,.edu-grid>*,.project-grid>*{min-width:0!important;max-width:100%}
 .skill-tags{min-width:0!important;max-width:100%}
@@ -43,8 +35,8 @@ img,video,canvas,svg{max-width:100%}
 .vr-video{display:block;max-width:100%;width:100%;height:auto;max-height:70vh;object-fit:contain;background:#000}
 .vr-results{overflow-wrap:anywhere}
 
-@media(max-width:760px){
-  .hero-photo{position:relative!important;top:auto!important;right:auto!important;transform:none!important;width:min(300px,78vw)!important;margin:48px auto 0!important}
+@media(max-width:900px){
+  .hero-photo{position:relative!important;right:auto!important;top:auto!important;transform:none!important;width:min(300px,78vw)!important;max-width:300px!important;margin:48px auto 0!important}
   .hero-photo-inner{transform:none!important}
   .hero-photo img{width:100%!important;height:100%!important;object-fit:contain!important}
   .vr-inputs{grid-template-columns:1fr!important}
