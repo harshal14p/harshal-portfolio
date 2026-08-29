@@ -1,65 +1,64 @@
-/* FINAL STABILITY LAYER — loaded last; preserve the original design and fix only confirmed layout failures. */
+/* FINAL STABILITY LAYER — profile image must remain fully visible and never enter the navbar. */
 *,*::before,*::after{box-sizing:border-box}
 html,body{max-width:100%;overflow-x:hidden}
 img,video,canvas,svg{max-width:100%}
 
-/* PROFILE IMAGE
-   The source is 420x520. Keep the card at the same intrinsic ratio so the
-   complete photo can be shown without cover-cropping. */
+/* PROFILE IMAGE: use the image's own aspect ratio instead of a clipping frame. */
 .hero-photo{
-  position:absolute;
-  right:6%;
-  top:50%;
-  width:min(360px,32vw);
-  max-width:360px;
-  min-width:0;
-  aspect-ratio:420/520;
-  transform:translateY(-50%);
-  z-index:3;
+  position:absolute!important;
+  right:6%!important;
+  top:calc(50% + 34px)!important;
+  width:min(360px,32vw)!important;
+  max-width:360px!important;
+  min-width:0!important;
+  height:auto!important;
+  aspect-ratio:auto!important;
+  transform:translateY(-50%)!important;
+  z-index:3!important;
 }
 .hero-photo-inner{
-  position:relative;
-  width:100%;
-  height:100%;
-  max-width:100%;
-  aspect-ratio:420/520;
-  overflow:hidden;
-  border-radius:var(--radius-lg);
-  transform:none;
+  position:relative!important;
+  width:100%!important;
+  height:auto!important;
+  max-width:100%!important;
+  aspect-ratio:auto!important;
+  overflow:visible!important;
+  border-radius:var(--radius-lg)!important;
+  transform:none!important;
 }
 .hero-photo-inner img{
-  display:block;
-  width:100%;
-  height:100%;
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;
-  object-position:center;
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  max-width:100%!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  transform:none!important;
   filter:saturate(1.02) contrast(1.03);
 }
 
-/* Fixed navigation is always above scrolling content. */
+/* Fixed navigation always sits above the hero image. */
 .site-nav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:1000;
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  z-index:10000!important;
 }
 .section[id]{scroll-margin-top:96px}
 
-/* Never alter the chosen name font, size, weight or normal placement. */
+/* Preserve original name typography and normal placement. */
 .hero-title{min-width:0;max-width:100%;overflow-wrap:normal;word-break:normal}
 .hero-title span{max-width:100%}
 
-/* Contain long content without changing normal typography. */
+/* Prevent content overflow without changing normal typography. */
 .section-title,.section-sub,.hero-role,.hero-line,
 .about-card,.tilt-card,.skill-group,.edu-card,.cert-card,
 .beyond-card,.timeline-item,.project-card,.contact-card,
 .vr-results,.vr-smart-results{min-width:0;max-width:100%}
 .section-title,.section-sub,.hero-role,.hero-line,p,h1,h2,h3,h4,h5,h6,li{overflow-wrap:break-word}
-
-/* Prevent horizontal overflow while keeping existing grids/spacing. */
 .container,.nav-inner,.cards-grid,.skills-grid,.edu-grid,.project-grid,
 .workflow-track,.timeline,.contact-grid{min-width:0;max-width:100%}
 .cards-grid>*,.skills-grid>*,.edu-grid>*,.project-grid>*{min-width:0;max-width:100%}
@@ -76,22 +75,22 @@ img,video,canvas,svg{max-width:100%}
 .vr-results{overflow-wrap:anywhere}
 
 @media (max-width:1100px) and (min-width:901px){
-  .hero-photo{right:30px;width:min(320px,30vw)}
+  .hero-photo{right:30px!important;width:min(320px,30vw)!important}
 }
 
 @media (max-width:900px){
-  /* The photo remains available on mobile instead of disappearing. */
   .hero-photo{
-    position:relative;
-    right:auto;
-    top:auto;
-    transform:none;
-    width:min(300px,78vw);
-    max-width:300px;
-    margin:48px auto 0;
+    position:relative!important;
+    right:auto!important;
+    top:auto!important;
+    transform:none!important;
+    width:min(300px,78vw)!important;
+    max-width:300px!important;
+    height:auto!important;
+    margin:48px auto 0!important;
   }
-  .hero-photo-inner{transform:none}
-  .hero-photo-inner img{width:100%;height:100%;object-fit:contain}
+  .hero-photo-inner{height:auto!important;overflow:visible!important}
+  .hero-photo-inner img{width:100%!important;height:auto!important;object-fit:contain!important}
   .hero{padding-top:140px;min-height:auto;padding-bottom:100px}
   .vr-inputs{grid-template-columns:1fr}
   .vr-actions{flex-wrap:wrap}
@@ -101,10 +100,8 @@ img,video,canvas,svg{max-width:100%}
 @media (max-width:560px){
   .container{padding-left:20px;padding-right:20px}
   .nav-inner{padding-left:20px;padding-right:20px}
-  .hero-photo{width:min(280px,82vw)}
+  .hero-photo{width:min(280px,82vw)!important}
   .hero-title{max-width:100%}
 }
 
-@media (prefers-reduced-motion:reduce){
-  .hero-title span{animation:none}
-}
+@media (prefers-reduced-motion:reduce){.hero-title span{animation:none}}
