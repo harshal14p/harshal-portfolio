@@ -1,52 +1,19 @@
-/* FINAL STABILITY LAYER — profile image must remain fully visible and never enter the navbar. */
+/* FINAL STABILITY LAYER — preserve content geometry; polish media without cropping. */
 *,*::before,*::after{box-sizing:border-box}
 html,body{max-width:100%;overflow-x:hidden}
 img,video,canvas,svg{max-width:100%}
 
-/* PROFILE IMAGE: use the image's own aspect ratio instead of a clipping frame. */
-.hero-photo{
-  position:absolute!important;
-  right:6%!important;
-  top:calc(50% + 34px)!important;
-  width:min(360px,32vw)!important;
-  max-width:360px!important;
-  min-width:0!important;
-  height:auto!important;
-  aspect-ratio:auto!important;
-  transform:translateY(-50%)!important;
-  z-index:3!important;
-}
-.hero-photo-inner{
-  position:relative!important;
-  width:100%!important;
-  height:auto!important;
-  max-width:100%!important;
-  aspect-ratio:auto!important;
-  overflow:visible!important;
-  border-radius:var(--radius-lg)!important;
-  transform:none!important;
-}
-.hero-photo-inner img{
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  max-width:100%!important;
-  max-height:none!important;
-  aspect-ratio:auto!important;
-  object-fit:contain!important;
-  object-position:center!important;
-  transform:none!important;
-  filter:saturate(1.02) contrast(1.03);
-}
+/* PROFILE IMAGE — intrinsic 420x520 ratio, fully visible, polished frame. */
+.hero-photo{position:absolute!important;right:6%!important;top:calc(50% + 34px)!important;width:min(360px,32vw)!important;max-width:360px!important;min-width:0!important;height:auto!important;aspect-ratio:auto!important;transform:translateY(-50%)!important;z-index:3!important;isolation:isolate}
+.hero-photo::before{content:"";position:absolute;inset:-10px;border-radius:calc(var(--radius-lg) + 10px);background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(130,150,255,.12) 42%,rgba(255,255,255,.035) 72%,rgba(255,255,255,.14));filter:blur(10px);opacity:.72;z-index:-2;pointer-events:none}
+.hero-photo::after{content:"";position:absolute;inset:-1px;border-radius:var(--radius-lg);padding:1px;background:linear-gradient(145deg,rgba(255,255,255,.48),rgba(255,255,255,.08) 34%,rgba(120,145,255,.28) 70%,rgba(255,255,255,.20));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;z-index:4;pointer-events:none}
+.hero-photo-inner{position:relative!important;width:100%!important;height:auto!important;max-width:100%!important;aspect-ratio:auto!important;overflow:hidden!important;border-radius:var(--radius-lg)!important;transform:none!important;background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025) 55%,rgba(100,120,255,.055))!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:0 30px 80px rgba(0,0,0,.62),0 12px 35px rgba(75,95,180,.10),inset 0 1px 0 rgba(255,255,255,.12)!important;transition:transform .45s cubic-bezier(.16,.8,.24,1),box-shadow .45s ease,filter .45s ease!important}
+.hero-photo-inner::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(125deg,rgba(255,255,255,.14),transparent 22%,transparent 62%,rgba(110,130,255,.08));mix-blend-mode:screen;opacity:.8}
+.hero-photo-inner:hover{transform:translateY(-7px) scale(1.012)!important;box-shadow:0 42px 95px rgba(0,0,0,.72),0 18px 48px rgba(80,100,220,.14),inset 0 1px 0 rgba(255,255,255,.17)!important}
+.hero-photo-inner img{position:relative!important;z-index:1!important;display:block!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important;object-position:center!important;transform:none!important;opacity:1!important;visibility:visible!important;filter:saturate(1.04) contrast(1.035)!important}
 
-/* Fixed navigation always sits above the hero image. */
-.site-nav{
-  position:fixed!important;
-  top:0!important;
-  left:0!important;
-  right:0!important;
-  z-index:10000!important;
-}
+/* Fixed navigation always sits above hero media. */
+.site-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:10000!important}
 .section[id]{scroll-margin-top:96px}
 
 /* Preserve original name typography and normal placement. */
@@ -54,54 +21,22 @@ img,video,canvas,svg{max-width:100%}
 .hero-title span{max-width:100%}
 
 /* Prevent content overflow without changing normal typography. */
-.section-title,.section-sub,.hero-role,.hero-line,
-.about-card,.tilt-card,.skill-group,.edu-card,.cert-card,
-.beyond-card,.timeline-item,.project-card,.contact-card,
-.vr-results,.vr-smart-results{min-width:0;max-width:100%}
+.section-title,.section-sub,.hero-role,.hero-line,.about-card,.tilt-card,.skill-group,.edu-card,.cert-card,.beyond-card,.timeline-item,.project-card,.contact-card,.vr-results,.vr-smart-results{min-width:0;max-width:100%}
 .section-title,.section-sub,.hero-role,.hero-line,p,h1,h2,h3,h4,h5,h6,li{overflow-wrap:break-word}
-.container,.nav-inner,.cards-grid,.skills-grid,.edu-grid,.project-grid,
-.workflow-track,.timeline,.contact-grid{min-width:0;max-width:100%}
+.container,.nav-inner,.cards-grid,.skills-grid,.edu-grid,.project-grid,.workflow-track,.timeline,.contact-grid{min-width:0;max-width:100%}
 .cards-grid>*,.skills-grid>*,.edu-grid>*,.project-grid>*{min-width:0;max-width:100%}
-.skill-tags{min-width:0;max-width:100%}
-.skill-tags span{max-width:100%;overflow-wrap:break-word}
-.btn,.vr-btn{max-width:100%}
+.skill-tags{min-width:0;max-width:100%}.skill-tags span{max-width:100%;overflow-wrap:break-word}.btn,.vr-btn{max-width:100%}
 
 /* Video reviewer containment. */
-#video-review-tool{min-width:0;max-width:100%}
-.vr-inputs{min-width:0}
-.vr-drop,.vr-drive-wrap,.vr-script{min-width:0;max-width:100%}
-.vr-drive,.vr-frameio,#vr-script-text{width:100%;max-width:100%;min-width:0}
-.vr-video{display:block;width:100%;max-width:100%;height:auto;max-height:70vh;object-fit:contain;background:#000}
-.vr-results{overflow-wrap:anywhere}
+#video-review-tool{min-width:0;max-width:100%}.vr-inputs{min-width:0}.vr-drop,.vr-drive-wrap,.vr-script{min-width:0;max-width:100%}.vr-drive,.vr-frameio,#vr-script-text{width:100%;max-width:100%;min-width:0}.vr-video{display:block;width:100%;max-width:100%;height:auto;max-height:70vh;object-fit:contain;background:#000}.vr-results{overflow-wrap:anywhere}
 
-@media (max-width:1100px) and (min-width:901px){
-  .hero-photo{right:30px!important;width:min(320px,30vw)!important}
-}
-
+@media (max-width:1100px) and (min-width:901px){.hero-photo{right:30px!important;width:min(320px,30vw)!important}}
 @media (max-width:900px){
-  .hero-photo{
-    position:relative!important;
-    right:auto!important;
-    top:auto!important;
-    transform:none!important;
-    width:min(300px,78vw)!important;
-    max-width:300px!important;
-    height:auto!important;
-    margin:48px auto 0!important;
-  }
-  .hero-photo-inner{height:auto!important;overflow:visible!important}
+  .hero-photo{position:relative!important;right:auto!important;top:auto!important;transform:none!important;width:min(300px,78vw)!important;max-width:300px!important;height:auto!important;margin:48px auto 0!important}
+  .hero-photo-inner{height:auto!important;overflow:hidden!important}
   .hero-photo-inner img{width:100%!important;height:auto!important;object-fit:contain!important}
   .hero{padding-top:140px;min-height:auto;padding-bottom:100px}
-  .vr-inputs{grid-template-columns:1fr}
-  .vr-actions{flex-wrap:wrap}
-  .vr-actions>*{flex:1 1 160px}
+  .vr-inputs{grid-template-columns:1fr}.vr-actions{flex-wrap:wrap}.vr-actions>*{flex:1 1 160px}
 }
-
-@media (max-width:560px){
-  .container{padding-left:20px;padding-right:20px}
-  .nav-inner{padding-left:20px;padding-right:20px}
-  .hero-photo{width:min(280px,82vw)!important}
-  .hero-title{max-width:100%}
-}
-
-@media (prefers-reduced-motion:reduce){.hero-title span{animation:none}}
+@media (max-width:560px){.container{padding-left:20px;padding-right:20px}.nav-inner{padding-left:20px;padding-right:20px}.hero-photo{width:min(280px,82vw)!important}.hero-title{max-width:100%}}
+@media (prefers-reduced-motion:reduce){.hero-title span{animation:none}.hero-photo-inner{transition:none!important}.hero-photo-inner:hover{transform:none!important}}
