@@ -1,0 +1,10 @@
+/* CLEAN UI OVERRIDES
+   Removes only decorative cinematic HUD/label overlays. Portfolio content remains unchanged. */
+.gp-section-index,
+.cx-section-code,
+.cx-hud,
+.cx-progress,
+.cx-lab-bar{display:none!important}
+.hero:before,
+.hero-photo-inner:after,
+.cx-project:after{display:none!important;content:none!important}
