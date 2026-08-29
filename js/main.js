@@ -13,8 +13,8 @@ load("./project-recovery.js","initProjectRecovery");
 load("./tilt.js","initTilt");
 load("./genz-playground.js","initGenzPlayground");
 load("./stability.js","initStability");
-loadSelf("./video-review.js");
-loadSelf("./smart-video-review.js");
+/* Use the unified V2 reviewer instead of stacking three competing scanners. */
+loadSelf("./video-review-v2.js");
 loadSelf("./mobile-fixes.js");
 /* Must be last: this is the single final geometry layer. */
 loadStyle("css/final-stability-fixes.css");
