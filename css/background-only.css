@@ -1,0 +1,12 @@
+/* ISOLATED BACKGROUND ONLY — never changes content geometry, typography or positioning. */
+:root{--bg-black:#030305;--bg-pink:#ff2bd6;--bg-blue:#38a7ff;--bg-violet:#735cff}
+html,body{background:var(--bg-black)!important;color:#f7f7fb!important;overflow-x:hidden!important}
+body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(600px 500px at 8% 18%,rgba(255,43,214,.10),transparent 70%),radial-gradient(650px 520px at 92% 28%,rgba(56,167,255,.09),transparent 70%),radial-gradient(700px 500px at 55% 100%,rgba(123,97,255,.07),transparent 72%)}
+body:after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.13;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,black,transparent 90%)}
+.neo-world{position:fixed!important;inset:0!important;z-index:1!important;pointer-events:none!important;overflow:hidden!important;display:block!important}
+.neo-world:before{content:"";position:absolute;width:clamp(190px,24vw,360px);height:clamp(190px,24vw,360px);left:78%;top:34%;border-radius:50%;background:radial-gradient(circle at center,#000 0 26%,#010102 27% 39%,rgba(255,43,214,.22) 43%,rgba(123,97,255,.10) 50%,transparent 69%);filter:drop-shadow(0 0 35px rgba(255,43,214,.20));animation:bgBlackHoleFloat 12s ease-in-out infinite}
+.neo-world:after{content:"";position:absolute;width:clamp(280px,34vw,500px);height:clamp(80px,10vw,145px);left:calc(78% - 6vw);top:calc(34% + 5vw);border-radius:50%;border:1px solid rgba(56,167,255,.24);box-shadow:0 0 28px rgba(255,43,214,.15),inset 0 0 28px rgba(56,167,255,.08);transform:rotate(-18deg);animation:bgBlackHoleSpin 9s linear infinite}
+@keyframes bgBlackHoleFloat{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-30px,24px,0) scale(1.06)}}
+@keyframes bgBlackHoleSpin{to{transform:rotate(342deg)}}
+@media(max-width:760px){.neo-world:before{width:145px;height:145px;left:72%;top:27%;opacity:.45}.neo-world:after{width:220px;height:70px;left:calc(72% - 38px);top:calc(27% + 30px);opacity:.55}}
+@media(prefers-reduced-motion:reduce){.neo-world:before,.neo-world:after{animation:none!important}.neo-world{opacity:.65}}
