@@ -1,8 +1,7 @@
-/* Stable portfolio bootstrap — optional modules are isolated so one bug can never blank the site. */
+/* Stable portfolio bootstrap. One layout system; optional features are isolated. */
 import { SITE } from "./config.js";
 applyConfig();
 applySEO();
-loadStyle("css/runtime-repair.css");
 load("./cursor.js","initCursor");
 load("./nav.js","initNav");
 load("./reveal.js","initReveal");
@@ -13,10 +12,8 @@ load("./project-recovery.js","initProjectRecovery");
 load("./tilt.js","initTilt");
 load("./genz-playground.js","initGenzPlayground");
 load("./stability.js","initStability");
-/* Use the unified V2 reviewer instead of stacking three competing scanners. */
 loadSelf("./video-review-v2.js");
-loadSelf("./mobile-fixes.js");
-/* Geometry first, decorative cleanup last. */
+/* Do not load mobile-fixes: it imports retired cinematic CSS and injects global hero rules after the final stylesheet. */
 loadStyle("css/final-stability-fixes.css");
 loadStyle("css/clean-ui-overrides.css");
 initWhatsApp();
