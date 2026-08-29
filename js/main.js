@@ -16,6 +16,8 @@ load("./stability.js","initStability");
 loadSelf("./video-review.js");
 loadSelf("./smart-video-review.js");
 loadSelf("./mobile-fixes.js");
+/* Must be last: this is the single final geometry layer. */
+loadStyle("css/final-stability-fixes.css");
 initWhatsApp();
 initContactActions();
 
