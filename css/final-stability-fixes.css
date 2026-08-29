@@ -1,45 +1,110 @@
-/* FINAL STABILITY LAYER — preserve the original layout; only fix overflow/cropping. */
+/* FINAL STABILITY LAYER — loaded last; preserve the original design and fix only confirmed layout failures. */
 *,*::before,*::after{box-sizing:border-box}
-html,body{max-width:100%;overflow-x:hidden!important}
+html,body{max-width:100%;overflow-x:hidden}
 img,video,canvas,svg{max-width:100%}
 
-/* PROFILE IMAGE: keep the original absolute placement and frame geometry. */
-.hero-photo{position:absolute!important;right:6%!important;top:50%!important;width:min(360px,32vw)!important;max-width:360px!important;min-width:0!important;aspect-ratio:420/520!important;transform:translateY(-50%)!important;z-index:30!important}
-.hero-photo-inner{position:relative!important;width:100%!important;height:100%!important;max-width:100%!important;overflow:hidden!important;aspect-ratio:420/520!important;transform:none!important}
-.hero-photo-inner img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;aspect-ratio:auto!important;object-fit:contain!important;object-position:center center!important}
+/* PROFILE IMAGE
+   The source is 420x520. Keep the card at the same intrinsic ratio so the
+   complete photo can be shown without cover-cropping. */
+.hero-photo{
+  position:absolute;
+  right:6%;
+  top:50%;
+  width:min(360px,32vw);
+  max-width:360px;
+  min-width:0;
+  aspect-ratio:420/520;
+  transform:translateY(-50%);
+  z-index:3;
+}
+.hero-photo-inner{
+  position:relative;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  aspect-ratio:420/520;
+  overflow:hidden;
+  border-radius:var(--radius-lg);
+  transform:none;
+}
+.hero-photo-inner img{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  object-position:center;
+  filter:saturate(1.02) contrast(1.03);
+}
 
-/* Keep the fixed navigation above the hero without moving the hero content. */
-.site-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:9999!important;background:rgba(3,3,5,.96)!important}
+/* Fixed navigation is always above scrolling content. */
+.site-nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+}
 .section[id]{scroll-margin-top:96px}
 
-/* Preserve original name typography and placement. */
-.hero-title{max-width:100%!important;min-width:0!important;overflow-wrap:normal!important;word-break:normal!important}
-.hero-title span{max-width:100%!important}
+/* Never alter the chosen name font, size, weight or normal placement. */
+.hero-title{min-width:0;max-width:100%;overflow-wrap:normal;word-break:normal}
+.hero-title span{max-width:100%}
 
-/* Text containment without changing normal typography or spacing. */
-.section-title,.section-sub,.hero-role,.hero-line,.about-card,.tilt-card,.skill-group,.edu-card,.cert-card,.beyond-card,.timeline-item,.project-card,.contact-card,.vr-results,.vr-smart-results{min-width:0!important;max-width:100%}
+/* Contain long content without changing normal typography. */
+.section-title,.section-sub,.hero-role,.hero-line,
+.about-card,.tilt-card,.skill-group,.edu-card,.cert-card,
+.beyond-card,.timeline-item,.project-card,.contact-card,
+.vr-results,.vr-smart-results{min-width:0;max-width:100%}
 .section-title,.section-sub,.hero-role,.hero-line,p,h1,h2,h3,h4,h5,h6,li{overflow-wrap:break-word}
 
-/* Prevent horizontal overflow while preserving existing grid geometry. */
-.container,.nav-inner,.cards-grid,.skills-grid,.edu-grid,.project-grid,.workflow-track,.timeline,.contact-grid{min-width:0!important;max-width:100%}
-.cards-grid>*,.skills-grid>*,.edu-grid>*,.project-grid>*{min-width:0!important;max-width:100%}
-.skill-tags{min-width:0!important;max-width:100%}
-.skill-tags span{max-width:100%!important;overflow-wrap:break-word}
+/* Prevent horizontal overflow while keeping existing grids/spacing. */
+.container,.nav-inner,.cards-grid,.skills-grid,.edu-grid,.project-grid,
+.workflow-track,.timeline,.contact-grid{min-width:0;max-width:100%}
+.cards-grid>*,.skills-grid>*,.edu-grid>*,.project-grid>*{min-width:0;max-width:100%}
+.skill-tags{min-width:0;max-width:100%}
+.skill-tags span{max-width:100%;overflow-wrap:break-word}
 .btn,.vr-btn{max-width:100%}
 
-/* Video tool containment only. */
-#video-review-tool{min-width:0!important;max-width:100%!important}
-.vr-inputs{min-width:0!important}
-.vr-drop,.vr-drive-wrap,.vr-script{min-width:0!important;max-width:100%!important}
-.vr-drive,.vr-frameio,#vr-script-text{width:100%!important;max-width:100%!important;min-width:0!important}
-.vr-video{display:block;max-width:100%;width:100%;height:auto;max-height:70vh;object-fit:contain;background:#000}
+/* Video reviewer containment. */
+#video-review-tool{min-width:0;max-width:100%}
+.vr-inputs{min-width:0}
+.vr-drop,.vr-drive-wrap,.vr-script{min-width:0;max-width:100%}
+.vr-drive,.vr-frameio,#vr-script-text{width:100%;max-width:100%;min-width:0}
+.vr-video{display:block;width:100%;max-width:100%;height:auto;max-height:70vh;object-fit:contain;background:#000}
 .vr-results{overflow-wrap:anywhere}
 
-@media(max-width:900px){
-  .hero-photo{position:relative!important;right:auto!important;top:auto!important;transform:none!important;width:min(300px,78vw)!important;max-width:300px!important;margin:48px auto 0!important}
-  .hero-photo-inner{transform:none!important}
-  .hero-photo img{width:100%!important;height:100%!important;object-fit:contain!important}
-  .vr-inputs{grid-template-columns:1fr!important}
-  .vr-actions{flex-wrap:wrap!important}
+@media (max-width:1100px) and (min-width:901px){
+  .hero-photo{right:30px;width:min(320px,30vw)}
+}
+
+@media (max-width:900px){
+  /* The photo remains available on mobile instead of disappearing. */
+  .hero-photo{
+    position:relative;
+    right:auto;
+    top:auto;
+    transform:none;
+    width:min(300px,78vw);
+    max-width:300px;
+    margin:48px auto 0;
+  }
+  .hero-photo-inner{transform:none}
+  .hero-photo-inner img{width:100%;height:100%;object-fit:contain}
+  .hero{padding-top:140px;min-height:auto;padding-bottom:100px}
+  .vr-inputs{grid-template-columns:1fr}
+  .vr-actions{flex-wrap:wrap}
   .vr-actions>*{flex:1 1 160px}
+}
+
+@media (max-width:560px){
+  .container{padding-left:20px;padding-right:20px}
+  .nav-inner{padding-left:20px;padding-right:20px}
+  .hero-photo{width:min(280px,82vw)}
+  .hero-title{max-width:100%}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hero-title span{animation:none}
 }
