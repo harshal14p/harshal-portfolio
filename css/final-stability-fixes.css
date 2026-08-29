@@ -1,105 +1,49 @@
-/* FINAL STABILITY LAYER
-   Loaded last. Keeps the existing design but removes conflicting geometry rules.
-*/
+/* FINAL STABILITY LAYER — safe containment only.
+   IMPORTANT: do not replace the original hero/grid geometry or typography.
+   Existing design rules remain the source of truth. */
 
-/* ---------- Global overflow / sizing ---------- */
 *,*::before,*::after{box-sizing:border-box}
 html,body{max-width:100%;overflow-x:hidden!important}
 img,video,canvas,svg{max-width:100%}
 
-/* ---------- Hero: one source of truth for the profile image ---------- */
-.hero{
-  min-height:100svh!important;
-  min-height:100vh!important;
-  padding-top:clamp(108px,10vh,138px)!important;
-  padding-bottom:64px!important;
-  overflow:visible!important;
-}
-.hero .container{width:100%;min-width:0}
-.hero-inner,.hero-photo{min-width:0!important}
-.hero-inner{max-width:min(720px,100%)!important}
+/* Keep the existing hero placement. Only stop the photo from being cropped. */
+.hero{overflow:visible!important}
+.hero-photo{min-width:0!important;max-width:100%!important}
+.hero-photo-inner{height:auto!important;max-width:100%!important;overflow:hidden!important}
+.hero-photo img{display:block!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important;object-position:center!important}
 
-.hero-photo{
-  align-self:center!important;
-  min-width:0!important;
-  max-width:100%!important;
-  margin-top:clamp(12px,3vh,42px)!important;
-}
-.hero-photo-inner{
-  width:100%!important;
-  height:auto!important;
-  aspect-ratio:auto!important;
-  overflow:hidden!important;
-}
-.hero-photo img{
-  display:block!important;
-  width:100%!important;
-  height:auto!important;
-  max-width:100%!important;
-  max-height:none!important;
-  aspect-ratio:auto!important;
-  object-fit:contain!important;
-  object-position:center!important;
-}
+/* Preserve the original name typography and placement. */
+.hero-title{max-width:100%!important;min-width:0!important;overflow-wrap:normal!important;word-break:normal!important}
+.hero-title span{max-width:100%!important}
 
-/* Never let the decorative 3D tilt change the image's box geometry. */
-.hero-photo-inner{transform-origin:center center}
+/* Text containment without globally changing line wrapping/spacing. */
+.section-title,.section-sub,.hero-role,.hero-line,.about-card,.tilt-card,.skill-group,.edu-card,.cert-card,.beyond-card,.timeline-item,.project-card,.contact-card,.vr-results,.vr-smart-results{min-width:0!important;max-width:100%}
+.section-title,.section-sub,.hero-role,.hero-line,p,h1,h2,h3,h4,h5,h6,li{overflow-wrap:break-word}
 
-/* ---------- Text containment ---------- */
-.hero-title,.section-title,.section-sub,.hero-role,.hero-line,
-.about-card,.tilt-card,.skill-group,.edu-card,.cert-card,.beyond-card,
-.timeline-item,.project-card,.contact-card,.vr-results,.vr-smart-results{
-  min-width:0!important;
-  max-width:100%;
-}
-.hero-title,.section-title{overflow-wrap:anywhere;word-break:normal}
-p,h1,h2,h3,h4,h5,h6,li,a,button,label,small,strong,span{overflow-wrap:anywhere}
-
-/* Don't force buttons/content wider than their parent. */
-.btn,.vr-btn{max-width:100%;white-space:normal}
-
-/* ---------- Responsive hero ---------- */
-@media (min-width:761px){
-  .hero .container{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.7fr);align-items:center;gap:clamp(28px,5vw,80px)}
-  .hero-inner{grid-column:1}
-  .hero-photo{grid-column:2;grid-row:1;margin-top:0!important}
-}
-@media (max-width:1100px) and (min-width:761px){
-  .hero .container{grid-template-columns:minmax(0,1fr) minmax(270px,.58fr);gap:30px}
-  .hero-title{font-size:clamp(3.2rem,8vw,6.2rem)!important}
-}
-@media (max-width:760px){
-  .hero{padding-top:100px!important;padding-bottom:48px!important;overflow:visible!important}
-  .hero .container{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:0!important}
-  .hero-inner{max-width:100%!important}
-  .hero-photo{width:min(420px,92vw)!important;margin:34px auto 0!important}
-  .hero-photo-inner{transform:none!important}
-  .hero-photo img{width:100%!important;height:auto!important}
-  .hero-title{font-size:clamp(3rem,14vw,6rem)!important;line-height:.9!important}
-}
-
-/* ---------- Navigation / anchor safety ---------- */
-.site-nav{z-index:1000!important}
+/* Navigation stays fixed and above scrolling content. */
+.site-nav{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:9999!important}
 .section[id]{scroll-margin-top:96px}
 
-/* ---------- Cards and grids must never create horizontal overflow ---------- */
-.container,.nav-inner,.grid,.projects-grid,.skills-grid,.education-grid,
-.workflow-track,.timeline,.contact-grid{min-width:0!important;max-width:100%}
-.projects-grid>* ,.skills-grid>* ,.education-grid>*{min-width:0!important;max-width:100%}
+/* Cards/grids: prevent horizontal overflow while preserving their existing geometry. */
+.container,.nav-inner,.cards-grid,.skills-grid,.edu-grid,.project-grid,.workflow-track,.timeline,.contact-grid{min-width:0!important;max-width:100%}
+.cards-grid>*,.skills-grid>*,.edu-grid>*,.project-grid>*{min-width:0!important;max-width:100%}
+.skill-tags{min-width:0!important;max-width:100%}
+.skill-tags span{max-width:100%!important;overflow-wrap:break-word}
 
-/* ---------- Keep the cinematic background behind content ---------- */
-#cinematic-world,.neo-world{z-index:1!important}
-main,.section,.hero{z-index:10!important}
+/* Buttons should not push their parent wider. */
+.btn,.vr-btn{max-width:100%}
 
-/* ---------- Video tool stability ---------- */
+/* Video tool stability only. */
 #video-review-tool{min-width:0!important;max-width:100%!important}
 .vr-inputs{min-width:0!important}
 .vr-drop,.vr-drive-wrap,.vr-script{min-width:0!important;max-width:100%!important}
 .vr-drive,.vr-frameio,#vr-script-text{width:100%!important;max-width:100%!important;min-width:0!important}
 .vr-video{display:block;max-width:100%;width:100%;height:auto;max-height:70vh;object-fit:contain;background:#000}
 .vr-results{overflow-wrap:anywhere}
-.vr-smart-results{overflow:hidden}
+
 @media(max-width:760px){
+  .hero{overflow:visible!important}
+  .hero-photo img{width:100%!important;height:auto!important;object-fit:contain!important}
   .vr-inputs{grid-template-columns:1fr!important}
   .vr-actions{flex-wrap:wrap!important}
   .vr-actions>*{flex:1 1 160px}
