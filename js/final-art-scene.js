@@ -30,11 +30,6 @@ function enhanceUI(){
   if(hero&&!hero.querySelector('.art-opening')){
     const intro=document.createElement('div');intro.className='art-opening';intro.innerHTML='<span>HC / 01</span><span>AN INTERACTIVE PERSONAL WORLD</span>';hero.appendChild(intro);
   }
-  const about=document.getElementById('about');
-  if(about&&!about.querySelector('.art-statement')){
-    const statement=document.createElement('div');statement.className='art-statement';statement.innerHTML='<span>01 — IDENTITY</span><strong>THERE’S MORE<br>THAN THE<br>FIRST IMPRESSION.</strong>';
-    const container=about.querySelector('.container');container?.prepend(statement);
-  }
   const contact=document.getElementById('contact');
   if(contact&&!contact.querySelector('.final-convergence')){
     const wrap=document.createElement('div');wrap.className='final-convergence';wrap.innerHTML='<span class="final-kicker">THE WORLD ENDS HERE.</span><h2>HARSHAL<br>CHOUHAN</h2><p>LET’S BUILD SOMETHING WORTH REMEMBERING.</p><div class="final-line"></div>';
