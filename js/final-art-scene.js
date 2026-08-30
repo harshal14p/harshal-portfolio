@@ -14,13 +14,11 @@ function makeMonogram(){
   box(.92,1.55,0,1.65,.32,.32);box(.92,-1.55,0,1.65,.32,.32);box(1.7,0,0,.32,3,.32);box(.92,0,0,.32,1.1,.32);
   g.add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.8,2),glow));return g;
 }
-
 function makeSacredMotif(){
   const g=new THREE.Group(),mat=new THREE.LineBasicMaterial({color:0x5ba9ff,transparent:true,opacity:.055,blending:THREE.AdditiveBlending});
   const make=(r,z)=>{const p=[];for(let i=0;i<=80;i++){const t=i/80*Math.PI;p.push(new THREE.Vector3(Math.cos(t)*r*Math.sin(t),Math.sin(t)*r*Math.sin(t)+.2,z));}return new THREE.Line(new THREE.BufferGeometry().setFromPoints(p),mat)};
   g.add(make(2.6,0),make(1.7,.02));return g;
 }
-
 function makeGada(){
   const g=new THREE.Group();
   const metal=new THREE.MeshStandardMaterial({color:0x7fbfff,metalness:.94,roughness:.2,transparent:true,opacity:.48,emissive:0x0b4b9c,emissiveIntensity:1.7});
@@ -32,7 +30,6 @@ function makeGada(){
   const aura=new THREE.Mesh(new THREE.SphereGeometry(1.05,20,16),glow);g.add(aura);
   g.scale.setScalar(.72);return g;
 }
-
 function makeIcon(symbol){
   const g=new THREE.Group();
   const mat=new THREE.MeshStandardMaterial({color:0x74baff,metalness:.75,roughness:.3,transparent:true,opacity:.25,emissive:0x0a3977,emissiveIntensity:1.2});
@@ -58,27 +55,22 @@ function makeIcon(symbol){
   }
   return g;
 }
-
 function makeParticles(){
   const n=900,pos=new Float32Array(n*3);
   for(let i=0;i<n;i++){const r=7+Math.random()*15,a=Math.random()*Math.PI*2;pos[i*3]=Math.cos(a)*r;pos[i*3+1]=(Math.random()-.5)*18;pos[i*3+2]=(Math.random()-.5)*12;}
   const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
   return new THREE.Points(geo,new THREE.PointsMaterial({color:0x5ba9ff,size:.025,transparent:true,opacity:.34,blending:THREE.AdditiveBlending,depthWrite:false}));
 }
-
 function enhanceUI(){
   const contact=document.getElementById('contact');
   if(contact&&!contact.querySelector('.final-convergence')){
     const wrap=document.createElement('div');wrap.className='final-convergence';wrap.innerHTML='<span class="final-kicker">THE WORLD ENDS HERE.</span><h2>HARSHAL<br>CHOUHAN</h2><p>LET’S BUILD SOMETHING WORTH REMEMBERING.</p><div class="final-line"></div>';
-    contact.prepend(wrap);
-    contact.classList.add('cinematic-ending');
+    contact.prepend(wrap);contact.classList.add('cinematic-ending');
   }
 }
-
 function resize(){if(!renderer||!camera)return;camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight,false)}
 function onMove(e){target.x=e.clientX/innerWidth-.5;target.y=e.clientY/innerHeight-.5}
 function onScroll(){scrollTarget=Math.min(1,Math.max(0,scrollY/(document.documentElement.scrollHeight-innerHeight||1)))}
-
 export function initScene(){
   const canvas=document.getElementById('scene-canvas');if(!canvas)return;
   enhanceUI();scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x030509,.035);
@@ -87,16 +79,9 @@ export function initScene(){
   group=new THREE.Group();scene.add(group);
   core=makeMonogram();core.position.set(4.2,.5,-1.2);core.rotation.set(.05,-.25,.08);group.add(core);
   halo=makeSacredMotif();halo.position.set(4.2,.5,-1.7);halo.rotation.set(0,.15,.08);group.add(halo);
-
-  // Scroll-reactive sacred gada: a restrained 3D reference to Hanuman Ji's strength symbol.
   gada=makeGada();gada.position.set(-4.6,2.5,-2.8);gada.rotation.set(.12,-.35,.18);scene.add(gada);
-
-  // Small floating 3D interest symbols. They drift through the world instead of becoming a flat icon grid.
-  const specs=[
-    ['movie',-5.1,-1.9,-1.2,.7],['tech',5.2,2.1,-3.4,.62],['fashion',-5.5,.4,-4.2,.65],['music',4.7,-2.3,-2.4,.7],['game',.3,3.3,-5,.65]
-  ];
-  icons=specs.map(([type,x,y,z,s])=>{const o=makeIcon(type);o.position.set(x,y,z);o.scale.setScalar(s);scene.add(o);return o;});
-
+  const specs=[['movie',-5.1,-1.9,-1.2,.7],['tech',5.2,2.1,-3.4,.62],['fashion',-5.5,.4,-4.2,.65],['music',4.7,-2.3,-2.4,.7],['game',.3,3.3,-5,.65]];
+  icons=specs.map(([type,x,y,z,s],i)=>{const o=makeIcon(type);o.position.set(x,y,z);o.scale.setScalar(s);o.userData.base={x,y,z,phase:i*.9};scene.add(o);return o;});
   particles=makeParticles();scene.add(particles);
   const key=new THREE.PointLight(0x3c94ff,12,25);key.position.set(4,4,8);scene.add(key);
   const fill=new THREE.PointLight(0x6cb7ff,5,20);fill.position.set(-7,-2,5);scene.add(fill);scene.add(new THREE.AmbientLight(0x183050,.65));
@@ -106,7 +91,7 @@ export function initScene(){
     group.rotation.y=pointer.x*.16+scrollCurrent*.42;group.rotation.x=pointer.y*.08-scrollCurrent*.08;group.position.y=Math.sin(t*.16)*.12-scrollCurrent*.7;
     core.rotation.z=.08+Math.sin(t*.12)*.03;core.children.forEach((m,i)=>{if(m.isMesh)m.rotation.y=t*.045*(i%2?1:-1)});halo.rotation.z=.08+t*.018;halo.scale.setScalar(1+Math.sin(t*.45)*.025);
     gada.rotation.y=-.35+pointer.x*.32+Math.sin(t*.28)*.05;gada.rotation.x=.12+pointer.y*.18+scrollCurrent*.9;gada.position.y=2.5-scrollCurrent*5.4;gada.position.x=-4.6+pointer.x*.7;
-    icons.forEach((o,i)=>{o.rotation.y=t*(.08+i*.012)+pointer.x*.18*(i%2?1:-1);o.rotation.x=pointer.y*.12+Math.sin(t*.35+i)*.08;o.position.y+=Math.sin(t*.3+i)*.0009;o.position.x+=pointer.x*.015*(i%2?1:-1);});
+    icons.forEach((o,i)=>{const b=o.userData.base;o.rotation.y=t*(.08+i*.012)+pointer.x*.18*(i%2?1:-1);o.rotation.x=pointer.y*.12+Math.sin(t*.35+b.phase)*.08;o.position.x=b.x+pointer.x*.45*(i%2?1:-1);o.position.y=b.y+Math.sin(t*.3+b.phase)*.18-scrollCurrent*(.9+(i%3)*.25);o.position.z=b.z+Math.cos(t*.22+b.phase)*.12;});
     particles.rotation.y=t*.004+pointer.x*.08;particles.rotation.x=pointer.y*.025;
     camera.position.x+=(pointer.x*1.2-camera.position.x)*.025;camera.position.y+=(-pointer.y*.65-camera.position.y)*.025;camera.position.z+=(14+scrollCurrent*1.5-camera.position.z)*.02;camera.lookAt(2.1,0,0);
     renderer.render(scene,camera);raf=requestAnimationFrame(tick);
