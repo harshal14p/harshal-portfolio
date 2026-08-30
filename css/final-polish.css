@@ -6,15 +6,15 @@
 .section-title,.eyebrow,.card-num,.timeline-tag{position:relative;overflow:hidden}.section-title::after,.eyebrow::after,.card-num::after,.timeline-tag::after{content:"";position:absolute;inset:0 auto 0 -90%;width:45%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-18deg);pointer-events:none;animation:textCinematicShine 7s ease-in-out infinite}@keyframes textCinematicShine{0%,62%{left:-90%;opacity:0}69%{opacity:.65}78%,100%{left:150%;opacity:0}}
 .whatido .tilt-card ul,.whatido .tilt-card li{list-style:none!important}.whatido .tilt-card li::before,.whatido .tilt-card li::after{content:none!important;display:none!important}.whatido .tilt-card li{padding-left:0!important;margin-left:0!important}
 
-/* PORTRAIT: keep the whole photo visible; only the outer glass frame tilts. */
-.hero-photo{perspective:1200px;transform-style:preserve-3d}
+/* PORTRAIT — whole image stays visible; only a tiny premium 3D tilt. */
+.hero-photo{perspective:1400px;transform-style:preserve-3d}
 .hero-photo-inner{--photo-rx:0deg;--photo-ry:0deg;--shine-x:-120%;position:relative;transform:rotateX(var(--photo-rx)) rotateY(var(--photo-ry)) translateZ(0)!important;transform-style:preserve-3d;transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease;will-change:transform;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 30px 90px -28px rgba(0,0,0,.9),0 0 50px rgba(47,140,255,.12)}
-.hero-photo-inner::after{background:linear-gradient(180deg,transparent 74%,rgba(0,0,0,.12) 100%)!important;opacity:1}
-.hero-photo-inner::before{content:"";position:absolute;inset:-30% -55%;z-index:8;pointer-events:none;width:34%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.04) 34%,rgba(255,255,255,.7) 50%,rgba(70,157,255,.25) 60%,transparent);transform:translateX(var(--shine-x)) skewX(-18deg);mix-blend-mode:screen;opacity:.95}
-.hero-photo-inner img{filter:none!important;transform:none!important;width:100%;height:100%;object-fit:cover;transition:none!important;will-change:auto}
+.hero-photo-inner::after{background:linear-gradient(180deg,transparent 82%,rgba(0,0,0,.08) 100%)!important;opacity:1}
+.hero-photo-inner::before{content:"";position:absolute;inset:-25% -45%;z-index:8;pointer-events:none;width:30%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.04) 34%,rgba(255,255,255,.72) 50%,rgba(70,157,255,.22) 60%,transparent);transform:translateX(var(--shine-x)) skewX(-18deg);mix-blend-mode:screen;opacity:.95}
+.hero-photo-inner img{filter:none!important;transform:none!important;width:100%;height:100%;object-fit:contain;display:block;transition:none!important;will-change:auto}
 .hero-photo:hover .hero-photo-inner{box-shadow:0 0 0 1px rgba(255,255,255,.22),0 38px 100px -24px rgba(0,0,0,.95),0 0 70px rgba(47,140,255,.24)}
 
-/* Remove legacy DOM gada; the 3D scene owns the weapon now. */
+/* The 3D scene owns the Hanuman gada; no duplicate DOM version. */
 .hanuman-reference{display:none!important}.art-opening{display:none!important}
 #scene-canvas{mix-blend-mode:screen}
 @media (prefers-reduced-motion:reduce){.art-shine::after,.about-copy::after,.about-card::after,.tilt-card::after,.skill-group::after,.edu-card::after,.cert-card::after,.beyond-card::after,.contact-card::after,.project-card::after,.timeline-item::after,.workflow-track::after,.btn::after,.project-filters button::after,.section-title::after,.eyebrow::after,.card-num::after,.timeline-tag::after{animation:none}.hero-photo-inner{transform:none!important}}
