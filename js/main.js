@@ -17,6 +17,6 @@ function initContact(){document.querySelectorAll('[data-whatsapp]').forEach(el=>
 async function initProjects(){try{const mod=await import('./projects.js');mod.initProjects?.()}catch(e){console.warn('[Portfolio] projects skipped',e)}}
 async function initVideoReview(){try{await import('./video-review-v2.js')}catch(e){console.warn('[Portfolio] video review unavailable',e)}}
 async function initPremium(){try{await import('./premium-interactions.js')}catch(e){console.warn('[Portfolio] premium interactions unavailable',e)}}
-async function init3D(){try{const mod=await import('./scene.js');await mod.initScene?.()}catch(e){console.warn('[Portfolio] 3D scene unavailable',e)}}
-function init(){applyConfig();applySEO();loadStyle('css/regenerated-ui.css');loadStyle('css/premium-overhaul.css');initNav();initTimeline();initContact();initProjects();initVideoReview();initPremium();init3D();document.querySelectorAll('.reveal').forEach(el=>el.classList.add('is-visible'));}
+async function init3D(){try{const mod=await import('./final-art-scene.js');await mod.initScene?.()}catch(e){console.warn('[Portfolio] final art scene unavailable',e)}}
+function init(){applyConfig();applySEO();loadStyle('css/regenerated-ui.css');loadStyle('css/premium-overhaul.css');loadStyle('css/final-art-direction.css');initNav();initTimeline();initContact();initProjects();initVideoReview();initPremium();init3D();document.querySelectorAll('.reveal').forEach(el=>el.classList.add('is-visible'));}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
